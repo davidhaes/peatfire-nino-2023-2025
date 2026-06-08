@@ -106,21 +106,6 @@ All open access, processed through Google Earth Engine and downloaded locally wi
 
 A 3 km analysis grid was clipped to the five districts. A monthly feature table of climate, dryness, fuel, terrain, and fire labels was assembled, totalling 143,478 cell months with 1,107 fire positive cases. A LightGBM susceptibility model was trained with temporal hold out and leave one district out spatial cross validation. Drivers were attributed with TreeSHAP including interactions and partial dependence. Emerging hotspots were detected with Getis-Ord Gi star and a Mann-Kendall trend. Fire counts were linked to the Oceanic Nino Index. Full detail is in docs/methodology.md.
 
-## How to run
-
-Requires Python 3.11 on Windows. A Google Earth Engine service account key is needed for data fetching.
-
-    cd /d E:\Project\peatfire-nino-2023-2024
-    py -3.11 -m venv .venv
-    .venv\Scripts\activate.bat
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    pip install -e .
-    copy credentials\credentials.env.example credentials\credentials.env
-    python run_pipeline.py --skip-preflight --continue-on-error
-
-Outputs appear in outputs/figures, outputs/tables, outputs/insights, and docs.
-
 ## Limitations
 
 1. Peat extent is an elevation based proxy, not the licensed national peat map. The model ranks this proxy last, and residual spatial autocorrelation, Moran's I = 0.545, confirms a missing peat depth or water table layer.
@@ -128,10 +113,6 @@ Outputs appear in outputs/figures, outputs/tables, outputs/insights, and docs.
 3. Smoke export is a wind based proxy, not a physical dispersion model.
 4. The carbon estimate and the Oceanic Nino Index values require verification before publication.
 5. Pelalawan is nearly unpredictable from climate alone, spatial AUC 0.51, suggesting human driven ignition that this climate based model cannot capture.
-
-## Documentation
-
-Detailed reports are available in the docs folder: conclusions, executive_summary, recommendations, how_to_read, and methodology.
 
 ## License
 
