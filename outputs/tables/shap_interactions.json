@@ -1,0 +1,235 @@
+{
+  "partial_dependence": {
+    "ndwi": [
+      {
+        "bin_center": -0.05485470181348308,
+        "mean_fire_prob": 0.38834296125487044,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.18444973727536693,
+        "mean_fire_prob": 0.23135529094182034,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.22379731214624687,
+        "mean_fire_prob": 0.1780002348691647,
+        "n": 3110
+      },
+      {
+        "bin_center": 0.24946958629519705,
+        "mean_fire_prob": 0.13882125706036516,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.27127191743681905,
+        "mean_fire_prob": 0.10256937933451146,
+        "n": 3110
+      },
+      {
+        "bin_center": 0.2920423749662,
+        "mean_fire_prob": 0.1009847768922855,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.31343025717150275,
+        "mean_fire_prob": 0.07583960513657172,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.3377969663085012,
+        "mean_fire_prob": 0.06737686791907797,
+        "n": 3110
+      },
+      {
+        "bin_center": 0.3711541388065063,
+        "mean_fire_prob": 0.05407471890858883,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.5807851815893359,
+        "mean_fire_prob": 0.04246191266851391,
+        "n": 3110
+      }
+    ],
+    "vpd": [
+      {
+        "bin_center": 0.33585730588235646,
+        "mean_fire_prob": 0.07223343493348526,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.4489776464982465,
+        "mean_fire_prob": 0.06458157822579737,
+        "n": 3108
+      },
+      {
+        "bin_center": 0.4927688053023571,
+        "mean_fire_prob": 0.06673263113466141,
+        "n": 3113
+      },
+      {
+        "bin_center": 0.5283085922752324,
+        "mean_fire_prob": 0.07219478585278971,
+        "n": 3106
+      },
+      {
+        "bin_center": 0.5608965869593856,
+        "mean_fire_prob": 0.08264793495658272,
+        "n": 3114
+      },
+      {
+        "bin_center": 0.5998702977927901,
+        "mean_fire_prob": 0.08926160286714775,
+        "n": 3112
+      },
+      {
+        "bin_center": 0.6500189670259409,
+        "mean_fire_prob": 0.09914739826220018,
+        "n": 3108
+      },
+      {
+        "bin_center": 0.735334073288643,
+        "mean_fire_prob": 0.1942112149345167,
+        "n": 3113
+      },
+      {
+        "bin_center": 0.8904088411858603,
+        "mean_fire_prob": 0.27844398650046037,
+        "n": 3110
+      },
+      {
+        "bin_center": 1.4341227292909824,
+        "mean_fire_prob": 0.3598654065559365,
+        "n": 3110
+      }
+    ],
+    "soil_moisture": [
+      {
+        "bin_center": 0.09271411895751956,
+        "mean_fire_prob": 0.09900827541545341,
+        "n": 9332
+      },
+      {
+        "bin_center": 0.24220988452434544,
+        "mean_fire_prob": 0.2412718997464235,
+        "n": 3109
+      },
+      {
+        "bin_center": 0.32255563139915466,
+        "mean_fire_prob": 0.193416701544444,
+        "n": 3107
+      },
+      {
+        "bin_center": 0.3680034577846527,
+        "mean_fire_prob": 0.22052465474444494,
+        "n": 3115
+      },
+      {
+        "bin_center": 0.415715828537941,
+        "mean_fire_prob": 0.16722230424836176,
+        "n": 3110
+      },
+      {
+        "bin_center": 0.4772423803806306,
+        "mean_fire_prob": 0.08754638452843502,
+        "n": 3112
+      },
+      {
+        "bin_center": 0.5745739161968233,
+        "mean_fire_prob": 0.07575044562520933,
+        "n": 3111
+      },
+      {
+        "bin_center": 0.7179276764392853,
+        "mean_fire_prob": 0.09709161455186052,
+        "n": 3109
+      }
+    ],
+    "lst_k": [
+      {
+        "bin_center": 286.98,
+        "mean_fire_prob": 0.05901665271587745,
+        "n": 3109
+      },
+      {
+        "bin_center": 299.6453333333334,
+        "mean_fire_prob": 0.05185871687071632,
+        "n": 3113
+      },
+      {
+        "bin_center": 300.2253333333333,
+        "mean_fire_prob": 0.0532825761550595,
+        "n": 3081
+      },
+      {
+        "bin_center": 300.68,
+        "mean_fire_prob": 0.07394113784171738,
+        "n": 3118
+      },
+      {
+        "bin_center": 301.02,
+        "mean_fire_prob": 0.09886532364493729,
+        "n": 1693
+      },
+      {
+        "bin_center": 301.29999999999995,
+        "mean_fire_prob": 0.14009165276516733,
+        "n": 4518
+      },
+      {
+        "bin_center": 301.73,
+        "mean_fire_prob": 0.10956590296425599,
+        "n": 3131
+      },
+      {
+        "bin_center": 302.35333333333335,
+        "mean_fire_prob": 0.13779486686248765,
+        "n": 3114
+      },
+      {
+        "bin_center": 303.3183333333334,
+        "mean_fire_prob": 0.22474118844557356,
+        "n": 3118
+      },
+      {
+        "bin_center": 312.065,
+        "mean_fire_prob": 0.41100924996041366,
+        "n": 3111
+      }
+    ]
+  },
+  "top_interactions": [
+    {
+      "feature_a": "vpd",
+      "feature_b": "soil_moisture",
+      "interaction_strength": 0.08730084022228869
+    },
+    {
+      "feature_a": "ndwi",
+      "feature_b": "lst_k",
+      "interaction_strength": 0.04977591588098032
+    },
+    {
+      "feature_a": "vpd",
+      "feature_b": "ndwi",
+      "interaction_strength": 0.04071755516463491
+    },
+    {
+      "feature_a": "ndwi",
+      "feature_b": "soil_moisture",
+      "interaction_strength": 0.038246077410062626
+    },
+    {
+      "feature_a": "lst_k",
+      "feature_b": "soil_moisture",
+      "interaction_strength": 0.025394576087640907
+    },
+    {
+      "feature_a": "vpd",
+      "feature_b": "lst_k",
+      "interaction_strength": 0.024167951247804895
+    }
+  ],
+  "note": "PDP shows how fire probability responds to each driver; interactions reveal compound dryness effects."
+}

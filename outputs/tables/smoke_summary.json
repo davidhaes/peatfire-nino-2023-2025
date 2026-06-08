@@ -1,0 +1,126 @@
+{
+  "records": [
+    {
+      "district": "Kotawaringin Timur",
+      "year": 2023,
+      "export_bearing_deg": 344.2,
+      "mean_wind_ms": 0.52,
+      "n_high_days": 1,
+      "frp_on_high_days": 17498.2
+    },
+    {
+      "district": "Kotawaringin Timur",
+      "year": 2024,
+      "export_bearing_deg": 340.9,
+      "mean_wind_ms": 2.07,
+      "n_high_days": 1,
+      "frp_on_high_days": 10256.5
+    },
+    {
+      "district": "Kotawaringin Timur",
+      "year": 2025,
+      "export_bearing_deg": 334.5,
+      "mean_wind_ms": 0.72,
+      "n_high_days": 1,
+      "frp_on_high_days": 6946.8
+    },
+    {
+      "district": "Pulang Pisau",
+      "year": 2023,
+      "export_bearing_deg": 339.1,
+      "mean_wind_ms": 1.57,
+      "n_high_days": 1,
+      "frp_on_high_days": 8993.4
+    },
+    {
+      "district": "Pulang Pisau",
+      "year": 2024,
+      "export_bearing_deg": 335.7,
+      "mean_wind_ms": 2.17,
+      "n_high_days": 1,
+      "frp_on_high_days": 2023.8
+    },
+    {
+      "district": "Pulang Pisau",
+      "year": 2025,
+      "export_bearing_deg": 351.0,
+      "mean_wind_ms": 0.96,
+      "n_high_days": 1,
+      "frp_on_high_days": 641.4
+    },
+    {
+      "district": "Pelalawan",
+      "year": 2023,
+      "export_bearing_deg": 305.1,
+      "mean_wind_ms": 1.47,
+      "n_high_days": 1,
+      "frp_on_high_days": 7286.2
+    },
+    {
+      "district": "Pelalawan",
+      "year": 2024,
+      "export_bearing_deg": 117.7,
+      "mean_wind_ms": 0.72,
+      "n_high_days": 1,
+      "frp_on_high_days": 6684.6
+    },
+    {
+      "district": "Pelalawan",
+      "year": 2025,
+      "export_bearing_deg": 321.9,
+      "mean_wind_ms": 1.65,
+      "n_high_days": 1,
+      "frp_on_high_days": 3159.0
+    },
+    {
+      "district": "Banyu Asin",
+      "year": 2023,
+      "export_bearing_deg": 312.2,
+      "mean_wind_ms": 2.85,
+      "n_high_days": 1,
+      "frp_on_high_days": 9020.2
+    },
+    {
+      "district": "Banyu Asin",
+      "year": 2024,
+      "export_bearing_deg": 317.1,
+      "mean_wind_ms": 1.22,
+      "n_high_days": 1,
+      "frp_on_high_days": 4529.7
+    },
+    {
+      "district": "Banyu Asin",
+      "year": 2025,
+      "export_bearing_deg": 321.2,
+      "mean_wind_ms": 2.14,
+      "n_high_days": 1,
+      "frp_on_high_days": 1879.4
+    },
+    {
+      "district": "Ogan Komering Ilir",
+      "year": 2023,
+      "export_bearing_deg": 299.7,
+      "mean_wind_ms": 3.08,
+      "n_high_days": 1,
+      "frp_on_high_days": 25458.8
+    },
+    {
+      "district": "Ogan Komering Ilir",
+      "year": 2024,
+      "export_bearing_deg": 327.6,
+      "mean_wind_ms": 1.16,
+      "n_high_days": 1,
+      "frp_on_high_days": 9902.1
+    },
+    {
+      "district": "Ogan Komering Ilir",
+      "year": 2025,
+      "export_bearing_deg": 332.0,
+      "mean_wind_ms": 1.88,
+      "n_high_days": 1,
+      "frp_on_high_days": 3773.0
+    }
+  ],
+  "n_transboundary_oriented": 14,
+  "note": "Proxy only: straight-line ERA5 wind transport, not physical dispersion."
+}

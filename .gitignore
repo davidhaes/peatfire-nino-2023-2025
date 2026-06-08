@@ -1,0 +1,41 @@
+# virtual environment
+.venv/
+venv/
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+
+# CREDENTIALS, never commit real keys
+credentials/credentials.env
+credentials/*.json
+ee-*.json
+*.key
+
+# raw and intermediate data, large and reproducible
+data/raw/
+data/interim/
+data/processed/
+data/external/
+*.tif
+*.nc
+*.parquet
+
+# personal archive of non-published files, kept locally only
+trash/
+
+# stray experiment dumps without extension
+fire_prob
+prob
+
+# notebook checkpoints
+.ipynb_checkpoints/
+
+# bulky run log
+outputs/run_log.md
+*.egg-info/ 

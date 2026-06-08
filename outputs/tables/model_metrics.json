@@ -1,0 +1,45 @@
+{
+  "features": [
+    "vpd",
+    "wind_speed",
+    "precip_mm",
+    "treecover",
+    "loss_frac",
+    "elevation",
+    "slope",
+    "peat_likely",
+    "ndwi",
+    "lst_k",
+    "soil_moisture",
+    "vpd_lag1",
+    "precip_lag1",
+    "sm_lag1",
+    "precip_cum2"
+  ],
+  "folds": [
+    {
+      "train_year": -1,
+      "test_year": 2023,
+      "roc_auc": 0.6173122282602714,
+      "pr_auc": 0.028446448012949075,
+      "n_test_pos": 694
+    },
+    {
+      "train_year": -1,
+      "test_year": 2024,
+      "roc_auc": 0.7378153910849453,
+      "pr_auc": 0.026198349460031446,
+      "n_test_pos": 266
+    },
+    {
+      "train_year": -1,
+      "test_year": 2025,
+      "roc_auc": 0.6573304209999611,
+      "pr_auc": 0.007284980954594224,
+      "n_test_pos": 147
+    }
+  ],
+  "n_rows": 143478,
+  "n_fire_positive": 1107,
+  "prevalence": 0.0077
+}

@@ -1,0 +1,65 @@
+{
+  "parameters": {
+    "fuel_consumption_kg_m2": {
+      "low": 15.0,
+      "high": 30.0
+    },
+    "emission_factor_co2_g_kg": {
+      "low": 1550.0,
+      "high": 1700.0
+    },
+    "status": "NEEDS VERIFICATION - confirm against GFED4s/IPCC before publishing"
+  },
+  "total_burned_ha": 302016.1,
+  "co2_estimate_range_Mt": {
+    "low": 70.2,
+    "high": 154.0
+  },
+  "by_year": [
+    {
+      "year": 2023,
+      "burned_ha": 294255.2,
+      "co2_low_t": 68414334.0,
+      "co2_high_t": 150070152.0
+    },
+    {
+      "year": 2024,
+      "burned_ha": 7760.9,
+      "co2_low_t": 1804409.2,
+      "co2_high_t": 3958059.0
+    }
+  ],
+  "by_district": [
+    {
+      "district": "Ogan Komering Ilir",
+      "burned_ha": 180117.2,
+      "co2_low_t": 41877249.0,
+      "co2_high_t": 91859772.0
+    },
+    {
+      "district": "Pulang Pisau",
+      "burned_ha": 78391.8,
+      "co2_low_t": 18226093.5,
+      "co2_high_t": 39979818.0
+    },
+    {
+      "district": "Kotawaringin Timur",
+      "burned_ha": 29657.6,
+      "co2_low_t": 6895392.0,
+      "co2_high_t": 15125376.0
+    },
+    {
+      "district": "Banyu Asin",
+      "burned_ha": 8833.4,
+      "co2_low_t": 2053765.5,
+      "co2_high_t": 4505034.0
+    },
+    {
+      "district": "Pelalawan",
+      "burned_ha": 5016.1,
+      "co2_low_t": 1166243.2,
+      "co2_high_t": 2558211.0
+    }
+  ],
+  "note": "Indicative ORDER-OF-MAGNITUDE range from MCD64A1 burned area x literature fuel/EF intervals. NOT a substitute for GFED4s. Burned area is itself a 500 m product that may over-count. Report as a range, never a single figure."
+}

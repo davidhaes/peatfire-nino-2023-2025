@@ -1,0 +1,261 @@
+{
+  "global_ranking": [
+    "ndwi",
+    "elevation",
+    "vpd",
+    "treecover",
+    "soil_moisture",
+    "lst_k",
+    "loss_frac",
+    "slope",
+    "precip_lag1",
+    "vpd_lag1",
+    "sm_lag1",
+    "precip_mm",
+    "wind_speed",
+    "precip_cum2",
+    "peat_likely"
+  ],
+  "global_mean_abs_shap": {
+    "ndwi": 0.61348,
+    "elevation": 0.53302,
+    "vpd": 0.47564,
+    "treecover": 0.34022,
+    "soil_moisture": 0.32195,
+    "lst_k": 0.30502,
+    "loss_frac": 0.30159,
+    "slope": 0.28591,
+    "precip_lag1": 0.27978,
+    "vpd_lag1": 0.27507,
+    "sm_lag1": 0.2714,
+    "precip_mm": 0.26546,
+    "wind_speed": 0.23918,
+    "precip_cum2": 0.23649,
+    "peat_likely": 0.01083
+  },
+  "per_district": {
+    "Banyu Asin": {
+      "ranking": [
+        "ndwi",
+        "elevation",
+        "vpd",
+        "soil_moisture",
+        "treecover",
+        "lst_k",
+        "slope",
+        "vpd_lag1",
+        "sm_lag1",
+        "loss_frac",
+        "precip_lag1",
+        "wind_speed",
+        "precip_cum2",
+        "precip_mm",
+        "peat_likely"
+      ],
+      "mean_abs_shap": {
+        "ndwi": 0.7825,
+        "elevation": 0.60078,
+        "vpd": 0.47845,
+        "soil_moisture": 0.37066,
+        "treecover": 0.3612,
+        "lst_k": 0.30761,
+        "slope": 0.30488,
+        "vpd_lag1": 0.28877,
+        "sm_lag1": 0.28367,
+        "loss_frac": 0.2669,
+        "precip_lag1": 0.26663,
+        "wind_speed": 0.25923,
+        "precip_cum2": 0.25231,
+        "precip_mm": 0.24867,
+        "peat_likely": 0.00684
+      },
+      "top_driver": "ndwi"
+    },
+    "Kotawaringin Timur": {
+      "ranking": [
+        "elevation",
+        "vpd",
+        "ndwi",
+        "treecover",
+        "precip_lag1",
+        "precip_mm",
+        "soil_moisture",
+        "lst_k",
+        "slope",
+        "sm_lag1",
+        "vpd_lag1",
+        "precip_cum2",
+        "wind_speed",
+        "loss_frac",
+        "peat_likely"
+      ],
+      "mean_abs_shap": {
+        "elevation": 0.48736,
+        "vpd": 0.47045,
+        "ndwi": 0.41166,
+        "treecover": 0.39939,
+        "precip_lag1": 0.36301,
+        "precip_mm": 0.31535,
+        "soil_moisture": 0.30104,
+        "lst_k": 0.2953,
+        "slope": 0.25738,
+        "sm_lag1": 0.2477,
+        "vpd_lag1": 0.24436,
+        "precip_cum2": 0.24084,
+        "wind_speed": 0.23101,
+        "loss_frac": 0.2298,
+        "peat_likely": 0.01559
+      },
+      "top_driver": "elevation"
+    },
+    "Ogan Komering Ilir": {
+      "ranking": [
+        "ndwi",
+        "elevation",
+        "vpd",
+        "lst_k",
+        "treecover",
+        "soil_moisture",
+        "slope",
+        "precip_mm",
+        "sm_lag1",
+        "vpd_lag1",
+        "precip_lag1",
+        "wind_speed",
+        "precip_cum2",
+        "loss_frac",
+        "peat_likely"
+      ],
+      "mean_abs_shap": {
+        "ndwi": 0.69133,
+        "elevation": 0.53581,
+        "vpd": 0.51272,
+        "lst_k": 0.31725,
+        "treecover": 0.30295,
+        "soil_moisture": 0.2923,
+        "slope": 0.28638,
+        "precip_mm": 0.28002,
+        "sm_lag1": 0.27665,
+        "vpd_lag1": 0.26623,
+        "precip_lag1": 0.25123,
+        "wind_speed": 0.24487,
+        "precip_cum2": 0.23434,
+        "loss_frac": 0.19021,
+        "peat_likely": 0.00877
+      },
+      "top_driver": "ndwi"
+    },
+    "Pelalawan": {
+      "ranking": [
+        "ndwi",
+        "elevation",
+        "vpd",
+        "loss_frac",
+        "treecover",
+        "soil_moisture",
+        "slope",
+        "lst_k",
+        "vpd_lag1",
+        "wind_speed",
+        "sm_lag1",
+        "precip_cum2",
+        "precip_lag1",
+        "precip_mm",
+        "peat_likely"
+      ],
+      "mean_abs_shap": {
+        "ndwi": 0.62868,
+        "elevation": 0.51632,
+        "vpd": 0.4463,
+        "loss_frac": 0.4058,
+        "treecover": 0.38908,
+        "soil_moisture": 0.31263,
+        "slope": 0.29267,
+        "lst_k": 0.28515,
+        "vpd_lag1": 0.28313,
+        "wind_speed": 0.25185,
+        "sm_lag1": 0.25164,
+        "precip_cum2": 0.23251,
+        "precip_lag1": 0.22401,
+        "precip_mm": 0.18922,
+        "peat_likely": 0.01351
+      },
+      "top_driver": "ndwi"
+    },
+    "Pulang Pisau": {
+      "ranking": [
+        "ndwi",
+        "elevation",
+        "loss_frac",
+        "vpd",
+        "soil_moisture",
+        "lst_k",
+        "vpd_lag1",
+        "sm_lag1",
+        "slope",
+        "precip_lag1",
+        "precip_mm",
+        "treecover",
+        "precip_cum2",
+        "wind_speed",
+        "peat_likely"
+      ],
+      "mean_abs_shap": {
+        "ndwi": 0.58644,
+        "elevation": 0.54625,
+        "loss_frac": 0.51508,
+        "vpd": 0.45363,
+        "soil_moisture": 0.36496,
+        "lst_k": 0.32199,
+        "vpd_lag1": 0.31348,
+        "sm_lag1": 0.31183,
+        "slope": 0.30024,
+        "precip_lag1": 0.2858,
+        "precip_mm": 0.27923,
+        "treecover": 0.2244,
+        "precip_cum2": 0.2208,
+        "wind_speed": 0.20295,
+        "peat_likely": 0.00788
+      },
+      "top_driver": "ndwi"
+    }
+  },
+  "between_district_rank_spearman": {
+    "Banyu Asin": {
+      "Banyu Asin": 1.0,
+      "Kotawaringin Timur": 0.729,
+      "Ogan Komering Ilir": 0.886,
+      "Pelalawan": 0.896,
+      "Pulang Pisau": 0.786
+    },
+    "Kotawaringin Timur": {
+      "Banyu Asin": 0.729,
+      "Kotawaringin Timur": 1.0,
+      "Ogan Komering Ilir": 0.871,
+      "Pelalawan": 0.546,
+      "Pulang Pisau": 0.511
+    },
+    "Ogan Komering Ilir": {
+      "Banyu Asin": 0.886,
+      "Kotawaringin Timur": 0.871,
+      "Ogan Komering Ilir": 1.0,
+      "Pelalawan": 0.704,
+      "Pulang Pisau": 0.636
+    },
+    "Pelalawan": {
+      "Banyu Asin": 0.896,
+      "Kotawaringin Timur": 0.546,
+      "Ogan Komering Ilir": 0.704,
+      "Pelalawan": 1.0,
+      "Pulang Pisau": 0.807
+    },
+    "Pulang Pisau": {
+      "Banyu Asin": 0.786,
+      "Kotawaringin Timur": 0.511,
+      "Ogan Komering Ilir": 0.636,
+      "Pelalawan": 0.807,
+      "Pulang Pisau": 1.0
+    }
+  },
+  "heterogeneity_note": "Lower mean off-diagonal Spearman = more heterogeneous drivers (H1)."
+}

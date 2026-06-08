@@ -1,0 +1,1006 @@
+{
+  "study": "Peatland fire susceptibility, drivers, ENSO linkage, and smoke exposure 2023-2025",
+  "model": {
+    "features": [
+      "vpd",
+      "wind_speed",
+      "precip_mm",
+      "treecover",
+      "loss_frac",
+      "elevation",
+      "slope",
+      "peat_likely",
+      "ndwi",
+      "lst_k",
+      "soil_moisture",
+      "vpd_lag1",
+      "precip_lag1",
+      "sm_lag1",
+      "precip_cum2"
+    ],
+    "folds": [
+      {
+        "train_year": -1,
+        "test_year": 2023,
+        "roc_auc": 0.6173122282602714,
+        "pr_auc": 0.028446448012949075,
+        "n_test_pos": 694
+      },
+      {
+        "train_year": -1,
+        "test_year": 2024,
+        "roc_auc": 0.7378153910849453,
+        "pr_auc": 0.026198349460031446,
+        "n_test_pos": 266
+      },
+      {
+        "train_year": -1,
+        "test_year": 2025,
+        "roc_auc": 0.6573304209999611,
+        "pr_auc": 0.007284980954594224,
+        "n_test_pos": 147
+      }
+    ],
+    "n_rows": 143478,
+    "n_fire_positive": 1107,
+    "prevalence": 0.0077
+  },
+  "spatial_cross_validation": {
+    "method": "leave-one-district-out spatial CV",
+    "folds": [
+      {
+        "held_out_district": "Banyu Asin",
+        "roc_auc": 0.822,
+        "pr_auc": 0.045,
+        "n_test": 23958,
+        "n_test_fire": 124
+      },
+      {
+        "held_out_district": "Kotawaringin Timur",
+        "roc_auc": 0.619,
+        "pr_auc": 0.018,
+        "n_test": 33408,
+        "n_test_fire": 269
+      },
+      {
+        "held_out_district": "Ogan Komering Ilir",
+        "roc_auc": 0.759,
+        "pr_auc": 0.037,
+        "n_test": 37368,
+        "n_test_fire": 394
+      },
+      {
+        "held_out_district": "Pelalawan",
+        "roc_auc": 0.511,
+        "pr_auc": 0.008,
+        "n_test": 27900,
+        "n_test_fire": 213
+      },
+      {
+        "held_out_district": "Pulang Pisau",
+        "roc_auc": 0.83,
+        "pr_auc": 0.042,
+        "n_test": 20844,
+        "n_test_fire": 107
+      }
+    ],
+    "mean_roc_auc": 0.708,
+    "mean_pr_auc": 0.03,
+    "interpretation": "If spatial mean ROC-AUC is close to the temporal hold-out AUC, the model captures transferable mechanism rather than location memory. A large drop indicates spatial overfitting."
+  },
+  "drivers": {
+    "global_ranking": [
+      "ndwi",
+      "elevation",
+      "vpd",
+      "treecover",
+      "soil_moisture",
+      "lst_k",
+      "loss_frac",
+      "slope",
+      "precip_lag1",
+      "vpd_lag1",
+      "sm_lag1",
+      "precip_mm",
+      "wind_speed",
+      "precip_cum2",
+      "peat_likely"
+    ],
+    "global_mean_abs_shap": {
+      "ndwi": 0.61348,
+      "elevation": 0.53302,
+      "vpd": 0.47564,
+      "treecover": 0.34022,
+      "soil_moisture": 0.32195,
+      "lst_k": 0.30502,
+      "loss_frac": 0.30159,
+      "slope": 0.28591,
+      "precip_lag1": 0.27978,
+      "vpd_lag1": 0.27507,
+      "sm_lag1": 0.2714,
+      "precip_mm": 0.26546,
+      "wind_speed": 0.23918,
+      "precip_cum2": 0.23649,
+      "peat_likely": 0.01083
+    },
+    "per_district": {
+      "Banyu Asin": {
+        "ranking": [
+          "ndwi",
+          "elevation",
+          "vpd",
+          "soil_moisture",
+          "treecover",
+          "lst_k",
+          "slope",
+          "vpd_lag1",
+          "sm_lag1",
+          "loss_frac",
+          "precip_lag1",
+          "wind_speed",
+          "precip_cum2",
+          "precip_mm",
+          "peat_likely"
+        ],
+        "mean_abs_shap": {
+          "ndwi": 0.7825,
+          "elevation": 0.60078,
+          "vpd": 0.47845,
+          "soil_moisture": 0.37066,
+          "treecover": 0.3612,
+          "lst_k": 0.30761,
+          "slope": 0.30488,
+          "vpd_lag1": 0.28877,
+          "sm_lag1": 0.28367,
+          "loss_frac": 0.2669,
+          "precip_lag1": 0.26663,
+          "wind_speed": 0.25923,
+          "precip_cum2": 0.25231,
+          "precip_mm": 0.24867,
+          "peat_likely": 0.00684
+        },
+        "top_driver": "ndwi"
+      },
+      "Kotawaringin Timur": {
+        "ranking": [
+          "elevation",
+          "vpd",
+          "ndwi",
+          "treecover",
+          "precip_lag1",
+          "precip_mm",
+          "soil_moisture",
+          "lst_k",
+          "slope",
+          "sm_lag1",
+          "vpd_lag1",
+          "precip_cum2",
+          "wind_speed",
+          "loss_frac",
+          "peat_likely"
+        ],
+        "mean_abs_shap": {
+          "elevation": 0.48736,
+          "vpd": 0.47045,
+          "ndwi": 0.41166,
+          "treecover": 0.39939,
+          "precip_lag1": 0.36301,
+          "precip_mm": 0.31535,
+          "soil_moisture": 0.30104,
+          "lst_k": 0.2953,
+          "slope": 0.25738,
+          "sm_lag1": 0.2477,
+          "vpd_lag1": 0.24436,
+          "precip_cum2": 0.24084,
+          "wind_speed": 0.23101,
+          "loss_frac": 0.2298,
+          "peat_likely": 0.01559
+        },
+        "top_driver": "elevation"
+      },
+      "Ogan Komering Ilir": {
+        "ranking": [
+          "ndwi",
+          "elevation",
+          "vpd",
+          "lst_k",
+          "treecover",
+          "soil_moisture",
+          "slope",
+          "precip_mm",
+          "sm_lag1",
+          "vpd_lag1",
+          "precip_lag1",
+          "wind_speed",
+          "precip_cum2",
+          "loss_frac",
+          "peat_likely"
+        ],
+        "mean_abs_shap": {
+          "ndwi": 0.69133,
+          "elevation": 0.53581,
+          "vpd": 0.51272,
+          "lst_k": 0.31725,
+          "treecover": 0.30295,
+          "soil_moisture": 0.2923,
+          "slope": 0.28638,
+          "precip_mm": 0.28002,
+          "sm_lag1": 0.27665,
+          "vpd_lag1": 0.26623,
+          "precip_lag1": 0.25123,
+          "wind_speed": 0.24487,
+          "precip_cum2": 0.23434,
+          "loss_frac": 0.19021,
+          "peat_likely": 0.00877
+        },
+        "top_driver": "ndwi"
+      },
+      "Pelalawan": {
+        "ranking": [
+          "ndwi",
+          "elevation",
+          "vpd",
+          "loss_frac",
+          "treecover",
+          "soil_moisture",
+          "slope",
+          "lst_k",
+          "vpd_lag1",
+          "wind_speed",
+          "sm_lag1",
+          "precip_cum2",
+          "precip_lag1",
+          "precip_mm",
+          "peat_likely"
+        ],
+        "mean_abs_shap": {
+          "ndwi": 0.62868,
+          "elevation": 0.51632,
+          "vpd": 0.4463,
+          "loss_frac": 0.4058,
+          "treecover": 0.38908,
+          "soil_moisture": 0.31263,
+          "slope": 0.29267,
+          "lst_k": 0.28515,
+          "vpd_lag1": 0.28313,
+          "wind_speed": 0.25185,
+          "sm_lag1": 0.25164,
+          "precip_cum2": 0.23251,
+          "precip_lag1": 0.22401,
+          "precip_mm": 0.18922,
+          "peat_likely": 0.01351
+        },
+        "top_driver": "ndwi"
+      },
+      "Pulang Pisau": {
+        "ranking": [
+          "ndwi",
+          "elevation",
+          "loss_frac",
+          "vpd",
+          "soil_moisture",
+          "lst_k",
+          "vpd_lag1",
+          "sm_lag1",
+          "slope",
+          "precip_lag1",
+          "precip_mm",
+          "treecover",
+          "precip_cum2",
+          "wind_speed",
+          "peat_likely"
+        ],
+        "mean_abs_shap": {
+          "ndwi": 0.58644,
+          "elevation": 0.54625,
+          "loss_frac": 0.51508,
+          "vpd": 0.45363,
+          "soil_moisture": 0.36496,
+          "lst_k": 0.32199,
+          "vpd_lag1": 0.31348,
+          "sm_lag1": 0.31183,
+          "slope": 0.30024,
+          "precip_lag1": 0.2858,
+          "precip_mm": 0.27923,
+          "treecover": 0.2244,
+          "precip_cum2": 0.2208,
+          "wind_speed": 0.20295,
+          "peat_likely": 0.00788
+        },
+        "top_driver": "ndwi"
+      }
+    },
+    "between_district_rank_spearman": {
+      "Banyu Asin": {
+        "Banyu Asin": 1.0,
+        "Kotawaringin Timur": 0.729,
+        "Ogan Komering Ilir": 0.886,
+        "Pelalawan": 0.896,
+        "Pulang Pisau": 0.786
+      },
+      "Kotawaringin Timur": {
+        "Banyu Asin": 0.729,
+        "Kotawaringin Timur": 1.0,
+        "Ogan Komering Ilir": 0.871,
+        "Pelalawan": 0.546,
+        "Pulang Pisau": 0.511
+      },
+      "Ogan Komering Ilir": {
+        "Banyu Asin": 0.886,
+        "Kotawaringin Timur": 0.871,
+        "Ogan Komering Ilir": 1.0,
+        "Pelalawan": 0.704,
+        "Pulang Pisau": 0.636
+      },
+      "Pelalawan": {
+        "Banyu Asin": 0.896,
+        "Kotawaringin Timur": 0.546,
+        "Ogan Komering Ilir": 0.704,
+        "Pelalawan": 1.0,
+        "Pulang Pisau": 0.807
+      },
+      "Pulang Pisau": {
+        "Banyu Asin": 0.786,
+        "Kotawaringin Timur": 0.511,
+        "Ogan Komering Ilir": 0.636,
+        "Pelalawan": 0.807,
+        "Pulang Pisau": 1.0
+      }
+    },
+    "heterogeneity_note": "Lower mean off-diagonal Spearman = more heterogeneous drivers (H1)."
+  },
+  "driver_interactions": {
+    "partial_dependence": {
+      "ndwi": [
+        {
+          "bin_center": -0.05485470181348308,
+          "mean_fire_prob": 0.38834296125487044,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.18444973727536693,
+          "mean_fire_prob": 0.23135529094182034,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.22379731214624687,
+          "mean_fire_prob": 0.1780002348691647,
+          "n": 3110
+        },
+        {
+          "bin_center": 0.24946958629519705,
+          "mean_fire_prob": 0.13882125706036516,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.27127191743681905,
+          "mean_fire_prob": 0.10256937933451146,
+          "n": 3110
+        },
+        {
+          "bin_center": 0.2920423749662,
+          "mean_fire_prob": 0.1009847768922855,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.31343025717150275,
+          "mean_fire_prob": 0.07583960513657172,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.3377969663085012,
+          "mean_fire_prob": 0.06737686791907797,
+          "n": 3110
+        },
+        {
+          "bin_center": 0.3711541388065063,
+          "mean_fire_prob": 0.05407471890858883,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.5807851815893359,
+          "mean_fire_prob": 0.04246191266851391,
+          "n": 3110
+        }
+      ],
+      "vpd": [
+        {
+          "bin_center": 0.33585730588235646,
+          "mean_fire_prob": 0.07223343493348526,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.4489776464982465,
+          "mean_fire_prob": 0.06458157822579737,
+          "n": 3108
+        },
+        {
+          "bin_center": 0.4927688053023571,
+          "mean_fire_prob": 0.06673263113466141,
+          "n": 3113
+        },
+        {
+          "bin_center": 0.5283085922752324,
+          "mean_fire_prob": 0.07219478585278971,
+          "n": 3106
+        },
+        {
+          "bin_center": 0.5608965869593856,
+          "mean_fire_prob": 0.08264793495658272,
+          "n": 3114
+        },
+        {
+          "bin_center": 0.5998702977927901,
+          "mean_fire_prob": 0.08926160286714775,
+          "n": 3112
+        },
+        {
+          "bin_center": 0.6500189670259409,
+          "mean_fire_prob": 0.09914739826220018,
+          "n": 3108
+        },
+        {
+          "bin_center": 0.735334073288643,
+          "mean_fire_prob": 0.1942112149345167,
+          "n": 3113
+        },
+        {
+          "bin_center": 0.8904088411858603,
+          "mean_fire_prob": 0.27844398650046037,
+          "n": 3110
+        },
+        {
+          "bin_center": 1.4341227292909824,
+          "mean_fire_prob": 0.3598654065559365,
+          "n": 3110
+        }
+      ],
+      "soil_moisture": [
+        {
+          "bin_center": 0.09271411895751956,
+          "mean_fire_prob": 0.09900827541545341,
+          "n": 9332
+        },
+        {
+          "bin_center": 0.24220988452434544,
+          "mean_fire_prob": 0.2412718997464235,
+          "n": 3109
+        },
+        {
+          "bin_center": 0.32255563139915466,
+          "mean_fire_prob": 0.193416701544444,
+          "n": 3107
+        },
+        {
+          "bin_center": 0.3680034577846527,
+          "mean_fire_prob": 0.22052465474444494,
+          "n": 3115
+        },
+        {
+          "bin_center": 0.415715828537941,
+          "mean_fire_prob": 0.16722230424836176,
+          "n": 3110
+        },
+        {
+          "bin_center": 0.4772423803806306,
+          "mean_fire_prob": 0.08754638452843502,
+          "n": 3112
+        },
+        {
+          "bin_center": 0.5745739161968233,
+          "mean_fire_prob": 0.07575044562520933,
+          "n": 3111
+        },
+        {
+          "bin_center": 0.7179276764392853,
+          "mean_fire_prob": 0.09709161455186052,
+          "n": 3109
+        }
+      ],
+      "lst_k": [
+        {
+          "bin_center": 286.98,
+          "mean_fire_prob": 0.05901665271587745,
+          "n": 3109
+        },
+        {
+          "bin_center": 299.6453333333334,
+          "mean_fire_prob": 0.05185871687071632,
+          "n": 3113
+        },
+        {
+          "bin_center": 300.2253333333333,
+          "mean_fire_prob": 0.0532825761550595,
+          "n": 3081
+        },
+        {
+          "bin_center": 300.68,
+          "mean_fire_prob": 0.07394113784171738,
+          "n": 3118
+        },
+        {
+          "bin_center": 301.02,
+          "mean_fire_prob": 0.09886532364493729,
+          "n": 1693
+        },
+        {
+          "bin_center": 301.29999999999995,
+          "mean_fire_prob": 0.14009165276516733,
+          "n": 4518
+        },
+        {
+          "bin_center": 301.73,
+          "mean_fire_prob": 0.10956590296425599,
+          "n": 3131
+        },
+        {
+          "bin_center": 302.35333333333335,
+          "mean_fire_prob": 0.13779486686248765,
+          "n": 3114
+        },
+        {
+          "bin_center": 303.3183333333334,
+          "mean_fire_prob": 0.22474118844557356,
+          "n": 3118
+        },
+        {
+          "bin_center": 312.065,
+          "mean_fire_prob": 0.41100924996041366,
+          "n": 3111
+        }
+      ]
+    },
+    "top_interactions": [
+      {
+        "feature_a": "vpd",
+        "feature_b": "soil_moisture",
+        "interaction_strength": 0.08730084022228869
+      },
+      {
+        "feature_a": "ndwi",
+        "feature_b": "lst_k",
+        "interaction_strength": 0.04977591588098032
+      },
+      {
+        "feature_a": "vpd",
+        "feature_b": "ndwi",
+        "interaction_strength": 0.04071755516463491
+      },
+      {
+        "feature_a": "ndwi",
+        "feature_b": "soil_moisture",
+        "interaction_strength": 0.038246077410062626
+      },
+      {
+        "feature_a": "lst_k",
+        "feature_b": "soil_moisture",
+        "interaction_strength": 0.025394576087640907
+      },
+      {
+        "feature_a": "vpd",
+        "feature_b": "lst_k",
+        "interaction_strength": 0.024167951247804895
+      }
+    ],
+    "note": "PDP shows how fire probability responds to each driver; interactions reveal compound dryness effects."
+  },
+  "enso_linkage": {
+    "monthly": [
+      {
+        "year": 2023,
+        "month": 6,
+        "oni": 0.5,
+        "fire_count": 42
+      },
+      {
+        "year": 2023,
+        "month": 7,
+        "oni": 0.8,
+        "fire_count": 38
+      },
+      {
+        "year": 2023,
+        "month": 8,
+        "oni": 1.1,
+        "fire_count": 87
+      },
+      {
+        "year": 2023,
+        "month": 9,
+        "oni": 1.3,
+        "fire_count": 208
+      },
+      {
+        "year": 2023,
+        "month": 10,
+        "oni": 1.6,
+        "fire_count": 198
+      },
+      {
+        "year": 2023,
+        "month": 11,
+        "oni": 1.8,
+        "fire_count": 128
+      },
+      {
+        "year": 2024,
+        "month": 6,
+        "oni": 0.2,
+        "fire_count": 7
+      },
+      {
+        "year": 2024,
+        "month": 7,
+        "oni": -0.1,
+        "fire_count": 39
+      },
+      {
+        "year": 2024,
+        "month": 8,
+        "oni": -0.3,
+        "fire_count": 28
+      },
+      {
+        "year": 2024,
+        "month": 9,
+        "oni": -0.4,
+        "fire_count": 92
+      },
+      {
+        "year": 2024,
+        "month": 10,
+        "oni": -0.6,
+        "fire_count": 81
+      },
+      {
+        "year": 2024,
+        "month": 11,
+        "oni": -0.7,
+        "fire_count": 20
+      },
+      {
+        "year": 2025,
+        "month": 6,
+        "oni": -0.1,
+        "fire_count": 5
+      },
+      {
+        "year": 2025,
+        "month": 7,
+        "oni": 0.0,
+        "fire_count": 39
+      },
+      {
+        "year": 2025,
+        "month": 8,
+        "oni": 0.1,
+        "fire_count": 24
+      },
+      {
+        "year": 2025,
+        "month": 9,
+        "oni": 0.1,
+        "fire_count": 39
+      },
+      {
+        "year": 2025,
+        "month": 10,
+        "oni": 0.2,
+        "fire_count": 27
+      },
+      {
+        "year": 2025,
+        "month": 11,
+        "oni": 0.2,
+        "fire_count": 15
+      }
+    ],
+    "yearly": [
+      {
+        "year": 2023,
+        "mean_oni": 1.1833333333333333,
+        "total_fire": 701
+      },
+      {
+        "year": 2024,
+        "mean_oni": -0.31666666666666665,
+        "total_fire": 267
+      },
+      {
+        "year": 2025,
+        "mean_oni": 0.08333333333333333,
+        "total_fire": 149
+      }
+    ],
+    "pearson_r": 0.684,
+    "pearson_p": 0.0018,
+    "spearman_r": 0.416,
+    "spearman_p": 0.086,
+    "note": "ONI from NOAA CPC (NEEDS VERIFICATION). Positive correlation links El Nino strength to dry-season fire activity."
+  },
+  "susceptibility_by_year": [
+    {
+      "year": 2023,
+      "mean_susceptibility": 0.2027,
+      "fire_rate": 0.0155,
+      "n_cells": 38190
+    },
+    {
+      "year": 2024,
+      "mean_susceptibility": 0.0969,
+      "fire_rate": 0.0053,
+      "n_cells": 38190
+    },
+    {
+      "year": 2025,
+      "mean_susceptibility": 0.0454,
+      "fire_rate": 0.0023,
+      "n_cells": 38190
+    }
+  ],
+  "susceptibility_by_district": [
+    {
+      "district": "Ogan Komering Ilir",
+      "mean_susceptibility": 0.1599,
+      "fire_rate": 0.0104
+    },
+    {
+      "district": "Kotawaringin Timur",
+      "mean_susceptibility": 0.1117,
+      "fire_rate": 0.0071
+    },
+    {
+      "district": "Pelalawan",
+      "mean_susceptibility": 0.1026,
+      "fire_rate": 0.0086
+    },
+    {
+      "district": "Banyu Asin",
+      "mean_susceptibility": 0.0909,
+      "fire_rate": 0.0052
+    },
+    {
+      "district": "Pulang Pisau",
+      "mean_susceptibility": 0.0803,
+      "fire_rate": 0.0055
+    }
+  ],
+  "emerging_hotspots": {
+    "category_counts": {
+      "no_pattern": 7529,
+      "sporadic": 463,
+      "intensifying": 239,
+      "new": 78,
+      "diminishing": 5
+    },
+    "n_bins": 18,
+    "bins": [
+      "2023-06",
+      "2023-07",
+      "2023-08",
+      "2023-09",
+      "2023-10",
+      "2023-11",
+      "2024-06",
+      "2024-07",
+      "2024-08",
+      "2024-09",
+      "2024-10",
+      "2024-11",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11"
+    ]
+  },
+  "smoke_exposure": {
+    "records": [
+      {
+        "district": "Kotawaringin Timur",
+        "year": 2023,
+        "export_bearing_deg": 344.2,
+        "mean_wind_ms": 0.52,
+        "n_high_days": 1,
+        "frp_on_high_days": 17498.2
+      },
+      {
+        "district": "Kotawaringin Timur",
+        "year": 2024,
+        "export_bearing_deg": 340.9,
+        "mean_wind_ms": 2.07,
+        "n_high_days": 1,
+        "frp_on_high_days": 10256.5
+      },
+      {
+        "district": "Kotawaringin Timur",
+        "year": 2025,
+        "export_bearing_deg": 334.5,
+        "mean_wind_ms": 0.72,
+        "n_high_days": 1,
+        "frp_on_high_days": 6946.8
+      },
+      {
+        "district": "Pulang Pisau",
+        "year": 2023,
+        "export_bearing_deg": 339.1,
+        "mean_wind_ms": 1.57,
+        "n_high_days": 1,
+        "frp_on_high_days": 8993.4
+      },
+      {
+        "district": "Pulang Pisau",
+        "year": 2024,
+        "export_bearing_deg": 335.7,
+        "mean_wind_ms": 2.17,
+        "n_high_days": 1,
+        "frp_on_high_days": 2023.8
+      },
+      {
+        "district": "Pulang Pisau",
+        "year": 2025,
+        "export_bearing_deg": 351.0,
+        "mean_wind_ms": 0.96,
+        "n_high_days": 1,
+        "frp_on_high_days": 641.4
+      },
+      {
+        "district": "Pelalawan",
+        "year": 2023,
+        "export_bearing_deg": 305.1,
+        "mean_wind_ms": 1.47,
+        "n_high_days": 1,
+        "frp_on_high_days": 7286.2
+      },
+      {
+        "district": "Pelalawan",
+        "year": 2024,
+        "export_bearing_deg": 117.7,
+        "mean_wind_ms": 0.72,
+        "n_high_days": 1,
+        "frp_on_high_days": 6684.6
+      },
+      {
+        "district": "Pelalawan",
+        "year": 2025,
+        "export_bearing_deg": 321.9,
+        "mean_wind_ms": 1.65,
+        "n_high_days": 1,
+        "frp_on_high_days": 3159.0
+      },
+      {
+        "district": "Banyu Asin",
+        "year": 2023,
+        "export_bearing_deg": 312.2,
+        "mean_wind_ms": 2.85,
+        "n_high_days": 1,
+        "frp_on_high_days": 9020.2
+      },
+      {
+        "district": "Banyu Asin",
+        "year": 2024,
+        "export_bearing_deg": 317.1,
+        "mean_wind_ms": 1.22,
+        "n_high_days": 1,
+        "frp_on_high_days": 4529.7
+      },
+      {
+        "district": "Banyu Asin",
+        "year": 2025,
+        "export_bearing_deg": 321.2,
+        "mean_wind_ms": 2.14,
+        "n_high_days": 1,
+        "frp_on_high_days": 1879.4
+      },
+      {
+        "district": "Ogan Komering Ilir",
+        "year": 2023,
+        "export_bearing_deg": 299.7,
+        "mean_wind_ms": 3.08,
+        "n_high_days": 1,
+        "frp_on_high_days": 25458.8
+      },
+      {
+        "district": "Ogan Komering Ilir",
+        "year": 2024,
+        "export_bearing_deg": 327.6,
+        "mean_wind_ms": 1.16,
+        "n_high_days": 1,
+        "frp_on_high_days": 9902.1
+      },
+      {
+        "district": "Ogan Komering Ilir",
+        "year": 2025,
+        "export_bearing_deg": 332.0,
+        "mean_wind_ms": 1.88,
+        "n_high_days": 1,
+        "frp_on_high_days": 3773.0
+      }
+    ],
+    "n_transboundary_oriented": 14,
+    "note": "Proxy only: straight-line ERA5 wind transport, not physical dispersion."
+  },
+  "carbon_emissions": {
+    "parameters": {
+      "fuel_consumption_kg_m2": {
+        "low": 15.0,
+        "high": 30.0
+      },
+      "emission_factor_co2_g_kg": {
+        "low": 1550.0,
+        "high": 1700.0
+      },
+      "status": "NEEDS VERIFICATION - confirm against GFED4s/IPCC before publishing"
+    },
+    "total_burned_ha": 302016.1,
+    "co2_estimate_range_Mt": {
+      "low": 70.2,
+      "high": 154.0
+    },
+    "by_year": [
+      {
+        "year": 2023,
+        "burned_ha": 294255.2,
+        "co2_low_t": 68414334.0,
+        "co2_high_t": 150070152.0
+      },
+      {
+        "year": 2024,
+        "burned_ha": 7760.9,
+        "co2_low_t": 1804409.2,
+        "co2_high_t": 3958059.0
+      }
+    ],
+    "by_district": [
+      {
+        "district": "Ogan Komering Ilir",
+        "burned_ha": 180117.2,
+        "co2_low_t": 41877249.0,
+        "co2_high_t": 91859772.0
+      },
+      {
+        "district": "Pulang Pisau",
+        "burned_ha": 78391.8,
+        "co2_low_t": 18226093.5,
+        "co2_high_t": 39979818.0
+      },
+      {
+        "district": "Kotawaringin Timur",
+        "burned_ha": 29657.6,
+        "co2_low_t": 6895392.0,
+        "co2_high_t": 15125376.0
+      },
+      {
+        "district": "Banyu Asin",
+        "burned_ha": 8833.4,
+        "co2_low_t": 2053765.5,
+        "co2_high_t": 4505034.0
+      },
+      {
+        "district": "Pelalawan",
+        "burned_ha": 5016.1,
+        "co2_low_t": 1166243.2,
+        "co2_high_t": 2558211.0
+      }
+    ],
+    "note": "Indicative ORDER-OF-MAGNITUDE range from MCD64A1 burned area x literature fuel/EF intervals. NOT a substitute for GFED4s. Burned area is itself a 500 m product that may over-count. Report as a range, never a single figure."
+  },
+  "residual_spatial_autocorrelation": {
+    "morans_I": 0.5453,
+    "expected_I": -0.0001,
+    "p_value": 0.001,
+    "z_score": 102.035,
+    "n_cells": 7971,
+    "interpretation": "Moran's I near expected (~ -1/(n-1)) with high p means residuals are spatially random (good). Significant positive I means a spatial covariate is still missing (e.g. true peat depth, water table)."
+  },
+  "honesty_notes": [
+    "Peat extent is an elevation-based proxy, not the licensed national map; SHAP ranks it last and residual Moran's I is high, confirming this limitation.",
+    "Model skill is MODERATE (temporal ROC-AUC ~0.62-0.74, spatial mean ~0.71); this is not a high-accuracy operational forecaster.",
+    "Pelalawan spatial fold (ROC-AUC ~0.51) suggests anthropogenic ignition not captured by climate-driven predictors.",
+    "Smoke export is an ERA5 wind proxy, not a physical dispersion model.",
+    "Carbon emission is an order-of-magnitude RANGE; fuel/EF NEEDS VERIFICATION.",
+    "ONI values used for ENSO linkage NEEDS VERIFICATION against NOAA CPC.",
+    "Residual Moran's I significant: a spatial covariate (true peat depth, water table) is still missing."
+  ]
+}
