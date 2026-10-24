@@ -1,16 +1,16 @@
-district,year,export_bearing_deg,mean_wind_ms,n_high_days,frp_on_high_days
-Kotawaringin Timur,2023,344.2,0.52,1,17498.2
-Kotawaringin Timur,2024,340.9,2.07,1,10256.5
-Kotawaringin Timur,2025,334.5,0.72,1,6946.8
-Pulang Pisau,2023,339.1,1.57,1,8993.4
-Pulang Pisau,2024,335.7,2.17,1,2023.8
-Pulang Pisau,2025,351.0,0.96,1,641.4
-Pelalawan,2023,305.1,1.47,1,7286.2
-Pelalawan,2024,117.7,0.72,1,6684.6
-Pelalawan,2025,321.9,1.65,1,3159.0
-Banyu Asin,2023,312.2,2.85,1,9020.2
-Banyu Asin,2024,317.1,1.22,1,4529.7
-Banyu Asin,2025,321.2,2.14,1,1879.4
-Ogan Komering Ilir,2023,299.7,3.08,1,25458.8
-Ogan Komering Ilir,2024,327.6,1.16,1,9902.1
-Ogan Komering Ilir,2025,332.0,1.88,1,3773.0
+district,year,export_bearing_deg,mean_wind_ms,n_high_days,fire_pixels_on_high_days,fire_pixels_season
+Kotawaringin Timur,2023,332.5,1.84,9,2017.1,5136.9
+Kotawaringin Timur,2024,339.5,1.93,2,240.2,544.8
+Kotawaringin Timur,2025,297.3,0.84,3,243.3,693.0
+Pulang Pisau,2023,330.0,2.04,9,2832.6,7171.7
+Pulang Pisau,2024,331.0,1.67,3,131.8,480.7
+Pulang Pisau,2025,316.4,2.45,1,12.0,39.0
+Pelalawan,2023,324.9,0.85,8,460.1,1537.6
+Pelalawan,2024,320.2,0.46,4,203.7,641.9
+Pelalawan,2025,112.6,0.28,3,116.3,412.4
+Banyu Asin,2023,306.6,3.06,5,271.7,886.2
+Banyu Asin,2024,310.4,2.1,4,156.4,462.5
+Banyu Asin,2025,316.6,1.59,2,35.3,128.8
+Ogan Komering Ilir,2023,307.8,2.69,12,7636.3,19056.9
+Ogan Komering Ilir,2024,318.1,1.87,7,378.5,976.1
+Ogan Komering Ilir,2025,326.8,1.89,3,113.0,306.9

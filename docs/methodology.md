@@ -1,48 +1,68 @@
 # Methodology
 
-## Study Area
+## Study area
 
-Five peat dominated districts were selected across two macro regions: Ogan Komering Ilir and Banyuasin in South Sumatra, Pulang Pisau and Kotawaringin Timur in Central Kalimantan, and Pelalawan in Riau. Selection was based on documented fire history, with Ogan Komering Ilir an epicentre of the 2015 crisis, and on the contrast between deep coastal peat domes, ex Mega Rice Project drainage landscapes, and industrial plantation adjacent peat.
+Five peat districts were selected for fire history and for contrast between peat landscapes: Ogan Komering Ilir and Banyuasin in South Sumatra, Pulang Pisau and Kotawaringin Timur in Central Kalimantan, and Pelalawan in Riau. District boundaries come from GADM 4.1.
 
-## Data Sources
+## Analysis grid
 
-1. NASA FIRMS VIIRS S-NPP active fire and fire radiative power, accessed through the Earth Engine FIRMS collection (Schroeder et al., 2014).
-2. ERA5 Land daily aggregated reanalysis for 2 metre temperature, dewpoint, total precipitation, and 10 metre winds (Munoz-Sabater et al., 2021).
-3. MODIS MOD09A1 surface reflectance for the Normalized Difference Water Index, and MOD11A2 for land surface temperature.
-4. NASA SMAP Level 4 surface soil moisture (Entekhabi et al., 2010).
-5. Hansen Global Forest Change for tree cover baseline and forest loss (Hansen et al., 2013).
-6. MERIT DEM for elevation and derived slope (Yamazaki et al., 2017).
-7. MODIS MCD64A1 burned area for emission context (Giglio et al., 2018).
-8. GADM 4.1 administrative boundaries.
+A 3 km grid in UTM coordinates is clipped to the districts. A cell that touches two districts is assigned to the one it overlaps most, which gives 8,240 unique cells. 3 km matches the effective resolution of the coarsest dynamic input and avoids false precision. Cells without complete predictors are dropped, leaving 7,897 cells in the model.
 
-## Pre-processing Pipeline
+## Fire labels
 
-District boundaries were retrieved from GADM and used to construct a 3 kilometre analysis grid in projected UTM coordinates, yielding 8,314 cells. The 3 kilometre resolution was chosen to match the effective resolution of ERA5 Land and to avoid false precision, since predicting at a resolution finer than the coarsest input would be misleading. All raster predictors were reduced to grid cell centroids using Earth Engine reduceRegions in batches of 2,000 cells to respect platform query limits. Fire detections were aggregated to monthly cell level binary labels.
+MODIS active fire from the FIRMS collection in Earth Engine (collection 6.1, 1 km) is filtered to confidence of at least 30. For each cell and month, the 1 km pixels with fire on at least one day are counted with reduceRegions over the cell polygon. The first version vectorised the fire mask and kept one centroid per connected patch, which merged neighbouring pixels. A cell-month is labelled fire when that count is at least one. The study months are June to November of 2023, 2024 and 2025; May is read only to build lagged predictors.
 
-## Feature Engineering
+## Predictors
 
-The feature table combines static predictors (elevation, slope, tree cover, forest loss, peat proxy), monthly climate (vapour pressure deficit, wind speed, precipitation), monthly dynamic dryness (NDWI, land surface temperature, soil moisture), and temporal lag features (previous month VPD, precipitation, and soil moisture, plus two month cumulative precipitation). The final table contains 143,478 cell month records with 1,107 fire positive cases, a prevalence of 0.77 percent.
+| Group | Variables | Source |
+|---|---|---|
+| Weather, same month | VPD (kPa), wind speed (m/s), precipitation (mm/day) | ERA5-Land daily aggregates, monthly mean |
+| Weather, previous month | VPD, precipitation, and this month's plus last month's mean daily precipitation | ERA5-Land |
+| Surface state, previous month only | NDWI, land surface temperature (K), surface soil moisture (m3/m3) | MOD09A1, MOD11A2, SMAP L4 |
+| Fuel and terrain, static | Tree cover 2000, share of cell with forest loss 2001 to 2022, elevation, slope | Hansen GFC v1.12, MERIT DEM |
+| Peat, static | Peat share of the cell and mean thickness | PEATGRIDS, thickness at least 50 cm |
 
-Vapour pressure deficit was computed from temperature and dewpoint using the Tetens formulation:
+VPD uses the Tetens formulation: es(T) = 0.6108 exp(17.27 T / (T + 237.3)), and VPD = es(T air) minus es(T dewpoint).
 
-es(T) = 0.6108 exp( 17.27 T / (T + 237.3) )
+Same-month NDWI, land surface temperature and soil moisture are excluded because a fire changes them within the month it burns. Forest loss stops at 2022 so that loss caused by the 2023 fires cannot explain those fires. MODIS surface reflectance is masked with its StateQA band, and missing values stay missing rather than being set to zero.
 
-VPD = es(T_air) minus es(T_dewpoint), expressed in kilopascal.
+## Model
 
-## Analytical Methods
+LightGBM gradient boosted trees with a binary objective and no class reweighting, so predicted probabilities stay on the scale of the observed rate (4.5 percent of cell-months). Validation uses two schemes.
 
-Fire susceptibility was modelled with LightGBM gradient boosted trees (Ke et al., 2017), using scale_pos_weight to address class imbalance. Validation used two complementary strategies. Temporal hold out trained on two years and tested on the third, repeated for each year. Leave one district out spatial cross validation trained on four districts and tested on the fifth, repeated for each district, to test whether the model captures transferable mechanism rather than location memory.
+1. Leave one year out: train on two seasons and test on the third. A fold may train on later seasons, so this measures transfer between seasons, not forecasting.
+2. Leave one district out: train on four districts and test on the fifth.
 
-Driver attribution used TreeSHAP (Lundberg and Lee, 2017), including global mean absolute SHAP, per district attribution, pairwise interaction values, and partial dependence. Emerging hotspots were detected with the Getis-Ord Gi star statistic (Getis and Ord, 1992) computed per monthly time bin on a K nearest neighbour spatial weights matrix, with a Mann-Kendall trend test classifying each cell as new, intensifying, persistent, diminishing, sporadic, or no pattern. Fire counts were correlated with the Oceanic Nino Index using Pearson and Spearman coefficients. Residual spatial autocorrelation was tested with Moran's I to diagnose missing covariates.
+ROC-AUC and PR-AUC are both reported. PR-AUC is compared with the prevalence of each test fold, not with 0.5.
 
-## Validation Strategy
+## Attribution
 
-Because fire positive cells are rare, model skill is reported with both ROC-AUC and PR-AUC, the latter compared against prevalence rather than 0.5. Temporal AUC ranged from 0.62 to 0.74. Spatial cross validation produced a mean AUC of 0.708, indicating that the learned mechanism transfers across unseen districts, with the notable exception of Pelalawan.
+TreeSHAP gives mean absolute SHAP values (log-odds) globally and per district, plus pairwise interaction values. Partial dependence fixes one driver at each value across a random sample of cell-months and averages the predicted probability.
 
-## Software and Reproducibility
+## Emerging hotspots
 
-The analysis uses Python 3.11 with geopandas, rasterio, LightGBM, SHAP, esda and libpysal, pymannkendall, and the Earth Engine Python API. A fixed random seed of 42 ensures reproducibility. The complete pipeline runs from a single command.
+Getis-Ord Gi* is computed per monthly bin (18 bins) on fire pixel counts with 8-nearest-neighbour weights. Cells never significant at z above 1.96 are "no pattern". For the rest, a Mann-Kendall test on the Gi* series and the timing of significant bins class the cell as new, intensifying, persistent, diminishing or sporadic.
+
+## El Nino
+
+The Oceanic Nino Index is computed from NOAA OISST v2.1: the Nino 3.4 sea surface temperature anomaly against a 1991 to 2020 base, as a centred three-month mean. Monthly fire pixel counts are correlated with ONI (Pearson and Spearman). The 18 months come from three seasons and are not independent, so significance is judged by permuting ONI between whole seasons. That allows six arrangements, so the smallest possible p is 1/6.
+
+## Smoke direction
+
+For each district and season, days at or above the 90th percentile of daily fire pixels are selected. ERA5-Land 10 m winds are weighted by each day's fire count, and the mean vector gives a bearing and a straight-line 24 hour displacement. This is a direction proxy, not a dispersion model.
+
+## Carbon
+
+Burned area is MODIS MCD64A1, split into peat and non-peat with PEATGRIDS. CO2 is estimated for burned peat only, as area times fuel consumption (15 to 30 kg per square metre) times emission factor (1,550 to 1,700 g CO2 per kg). The result is a range, not an inventory.
+
+## Residual diagnostics
+
+Moran's I on cell-mean residuals tests for spatial structure that the predictors miss.
+
+## Software
+
+Python 3.11 with geopandas, rasterio, LightGBM, SHAP, esda, libpysal, pymannkendall and the Earth Engine Python API. The random seed is 42. The whole pipeline runs with `python run_pipeline.py`.
 
 ## References
 
-See references.bib for full citations.
+See references.bib.

@@ -1,59 +1,26 @@
-# Reading Indonesia's Worst Fire Season Since 2019 From Open Data Alone
+# What Open Data Can and Cannot Say About Indonesia's 2023 Peat Fires
 
 ## Lead
-The 2023 El Nino dried Indonesia's peatlands and lit the worst fire season in years.
-The headlines wrote themselves: haze over Singapore, smoke over Kuala Lumpur, carbon
-pouring out of land that should be a sink. The harder question is operational: with a
-finite budget, where do you act, and why?
-
-## The problem
-Peat fires are not ordinary fires. They smoulder underground, resist suppression, and
-emit disproportionately. Most public analysis stops at counting hotspots. Counting tells
-you where it burned, not why, and not where the smoke went next. Those two gaps are
-exactly what response agencies need closed.
+The 2023 El Nino dried Indonesia's peatlands and brought the worst fire season since 2019. Counting hotspots shows where it burned. Agencies with a finite budget also need to know why, where fire keeps coming back, and where the smoke goes.
 
 ## The approach
-I built a fully reproducible pipeline from open data: NASA FIRMS active fire, ERA5-Land
-weather, Hansen forest cover, MERIT terrain, GADM boundaries. Everything reduces to a
-1 km grid across five high-risk districts in Sumatra and Kalimantan.
+I built a reproducible pipeline from open data read through Google Earth Engine: MODIS active fire and burned area, ERA5-Land weather, MODIS and SMAP surface dryness, PEATGRIDS peat thickness, Hansen forest change and MERIT terrain. Everything is reduced to a monthly 3 km grid across five peat districts in Sumatra and Kalimantan for the dry seasons of 2023, 2024 and 2025.
 
-On that grid I trained a gradient-boosted susceptibility model and validated it the honest
-way: train on one ENSO year, test on the other. I then used SHAP to ask which drivers
-mattered, globally and per district. Separately, a Getis-Ord emerging-hotspot analysis
-located the clusters that recur, and an ERA5 wind proxy traced smoke-export direction on
-the worst days.
+A gradient boosted model is validated across seasons and across districts, and SHAP values show which conditions matter. An emerging hotspot analysis finds cells where fire is trending up, and fire-weighted winds give the direction smoke left in on the worst days.
 
-I deliberately did not build a fire-spread Transformer or a HYSPLIT dispersion model. The
-open data won't honestly support spread labels, and a wind proxy is the defensible scope
-for smoke direction. Over-claiming would have made the work less credible, not more.
+## What the data show
+In 2023, 12.1 percent of peat cell-months had MODIS fire; in 2024 it was 2.3 percent and in 2025 0.8 percent. Dry air is the strongest driver, and it matters most over deep peat that followed a dry month. The model ranks burning cells well above chance in held-out seasons and districts, with one exception: Pelalawan, where climate and peat explain little and land management probably explains more.
 
-## Key findings
-The model ranked dangerous cells well above the fire base rate on held-out years, proving
-that open data alone captures the mechanism. The El Nino signal was visible: 2023 peat
-cells carried higher susceptibility and fire rates than 2024. Most importantly, the
-dominant driver differed between districts. Some burn because the peat is deep and drained;
-others burn because the air is exceptionally dry. That distinction has teeth.
+Fire tracks the El Nino index, but three seasons are too few to separate El Nino from everything else that differed between those years. The honest statement is that the data are consistent with an El Nino effect.
 
-## What this means for practitioners
-If drivers differ, interventions should too. Rewetting and canal-blocking belong where
-drainage and peat depth dominate. Meteorological early-warning belongs where dryness leads.
-Persistent hot clusters, the cells that light up every year, deserve permanent
-infrastructure, not seasonal scrambles. And when high fire activity coincides with
-northwest winds, that is the moment for a coordinated transboundary haze pre-alert.
+## Correcting the first version
+The first version of this analysis undercounted fire about 27 times, used surface dryness measured after the fires as a predictor, and treated 18 months from three seasons as independent evidence about El Nino. Each of these made the result look stronger than it was. The corrected analysis is less dramatic and more useful.
 
-## Limitations
-The peat layer is an elevation proxy, not the licensed national map, so it over- and
-under-counts at the margins. The smoke direction is a wind proxy, not physical dispersion.
-The hotspot trend rests on twelve monthly bins. None of these break the headline results,
-but all of them bound the claims.
+## What it means in practice
+Ogan Komering Ilir had the highest susceptibility and 59 percent of the burned area, so it comes first for suppression capacity. Warnings should combine dry air, deep peat and a dry previous month. Clusters that intensified after 2023, mostly in northern Kotawaringin Timur and Pelalawan, deserve attention in ordinary seasons too.
 
-## Conclusion
-You do not need a giant model to produce an actionable fire map. You need open data, an
-honest method, and the discipline to scope claims to what the data supports. The result is
-a per-district risk and smoke picture that agencies can use before the next dry season.
-
-Code, data lineage, and full methodology are in the repository.
+## Limits
+MODIS misses small fires, PEATGRIDS is a model rather than a survey, the smoke direction is a wind proxy, and the carbon figure (66.5 to 145.9 Mt CO2 from burned peat) is a range from literature factors.
 
 ## References
-Field et al. (2016, PNAS); Schroeder et al. (2014, RSE); Munoz-Sabater et al. (2021, ESSD);
-Hansen et al. (2013, Science); Getis & Ord (1992); Lundberg & Lee (2017).
+Field et al. (2016, PNAS); Giglio et al. (2018, RSE); Munoz-Sabater et al. (2021, ESSD); Hansen et al. (2013, Science); Widyastuti et al. (2025, PEATGRIDS); Getis and Ord (1992); Lundberg and Lee (2017).

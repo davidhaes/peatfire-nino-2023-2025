@@ -9,7 +9,7 @@ import ee
 import pandas as pd
 from tqdm import tqdm
 
-from peatfire_nino.config import GEE_ASSETS
+from peatfire_nino.config import GEE_ASSETS, HANSEN_LOSS_LAST_YEAR
 from peatfire_nino.data.aoi import build_grid, load_districts
 from peatfire_nino.io.cache import file_exists
 from peatfire_nino.io.gee_session import init_earth_engine
@@ -35,7 +35,9 @@ def fetch_fuel_terrain() -> pd.DataFrame:
     hansen = ee.Image(GEE_ASSETS["hansen_gfc"])
     treecover = hansen.select("treecover2000").rename("treecover")
     loss = hansen.select("lossyear")
-    loss_recent = loss.gte(1).And(loss.lte(23)).rename("loss_flag")
+    # Loss up to the year before the study period only. Loss recorded in 2023
+    # includes forest killed by the 2023 fires and would leak the label.
+    loss_recent = loss.gte(1).And(loss.lte(HANSEN_LOSS_LAST_YEAR - 2000)).rename("loss_flag")
     dem = ee.Image(GEE_ASSETS["merit_dem"]).rename("elevation")
     slope = ee.Terrain.slope(dem).rename("slope")
     stack = treecover.addBands(loss_recent).addBands(dem).addBands(slope)
@@ -73,8 +75,8 @@ def fetch_fuel_terrain() -> pd.DataFrame:
         "license": "CC-BY 4.0 (Hansen GFC); MERIT DEM free for research",
         "access_date": date.today().isoformat(),
         "spatial_resolution": "30 m (Hansen), ~90 m (MERIT), reduced to grid",
-        "temporal_coverage": "tree cover 2000 baseline; loss through 2023",
-        "preprocessing_steps": "select treecover2000, lossyear<=23 flag, slope from MERIT, "
+        "temporal_coverage": f"tree cover 2000 baseline; loss 2001-{HANSEN_LOSS_LAST_YEAR}",
+        "preprocessing_steps": f"select treecover2000, loss 2001-{HANSEN_LOSS_LAST_YEAR} flag, slope from MERIT, "
                                "batched reduceRegions mean to grid",
         "unit": "treecover % ; loss_frac 0-1 ; elevation m ; slope deg",
         "citation_apa": "Hansen, M. C., et al. (2013). High-resolution global maps of "

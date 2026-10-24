@@ -89,10 +89,17 @@ def build_grid(districts: gpd.GeoDataFrame, cell_km: float = GRID_CELL_KM) -> gp
                 y0 = miny + j * cell_m
                 cells.append(box(x0, y0, x0 + cell_m, y0 + cell_m))
         grid = gpd.GeoDataFrame({"geometry": cells}, crs=int(epsg))
-        # keep only cells intersecting the districts
-        joined = gpd.sjoin(grid, proj[["district", "bps", "geometry"]],
-                           predicate="intersects", how="inner")
-        joined = joined.drop(columns="index_right").to_crs(4326)
+        # Keep cells intersecting the districts. A cell on a district boundary
+        # intersects two districts; an intersects-join returned it twice under
+        # two cell ids, which double-counted it and put two identical points
+        # at zero distance in every spatial weights matrix. Each cell now goes
+        # to the district that covers most of it.
+        grid["cell_key"] = range(len(grid))
+        pieces = gpd.overlay(grid, proj[["district", "bps", "geometry"]], how="intersection")
+        pieces["overlap"] = pieces.geometry.area
+        best = pieces.sort_values("overlap", ascending=False).drop_duplicates("cell_key")
+        joined = grid.merge(best[["cell_key", "district", "bps"]], on="cell_key", how="inner")
+        joined = joined.drop(columns="cell_key").to_crs(4326)
         frames.append(joined)
 
     grid_all = gpd.GeoDataFrame(

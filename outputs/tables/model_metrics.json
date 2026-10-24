@@ -7,39 +7,42 @@
     "loss_frac",
     "elevation",
     "slope",
-    "peat_likely",
-    "ndwi",
-    "lst_k",
-    "soil_moisture",
+    "peat_share",
+    "peat_thickness_cm",
+    "ndwi_lag1",
+    "lst_lag1",
+    "sm_lag1",
     "vpd_lag1",
     "precip_lag1",
-    "sm_lag1",
     "precip_cum2"
   ],
   "folds": [
     {
       "train_year": -1,
       "test_year": 2023,
-      "roc_auc": 0.6173122282602714,
-      "pr_auc": 0.028446448012949075,
-      "n_test_pos": 694
+      "roc_auc": 0.7479384845081603,
+      "pr_auc": 0.19050024972834173,
+      "n_test_pos": 4727,
+      "prevalence": 0.0998
     },
     {
       "train_year": -1,
       "test_year": 2024,
-      "roc_auc": 0.7378153910849453,
-      "pr_auc": 0.026198349460031446,
-      "n_test_pos": 266
+      "roc_auc": 0.7468998050953127,
+      "pr_auc": 0.06164726280182139,
+      "n_test_pos": 1085,
+      "prevalence": 0.0229
     },
     {
       "train_year": -1,
       "test_year": 2025,
-      "roc_auc": 0.6573304209999611,
-      "pr_auc": 0.007284980954594224,
-      "n_test_pos": 147
+      "roc_auc": 0.609154127765721,
+      "pr_auc": 0.022662884922248903,
+      "n_test_pos": 620,
+      "prevalence": 0.0131
     }
   ],
-  "n_rows": 143478,
-  "n_fire_positive": 1107,
-  "prevalence": 0.0077
+  "n_rows": 142146,
+  "n_fire_positive": 6432,
+  "prevalence": 0.0452
 }

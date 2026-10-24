@@ -12,10 +12,14 @@ from peatfire_nino.config import RANDOM_SEED
 from peatfire_nino.io.logging_utils import log_step
 from peatfire_nino.io.paths import DATA_PROCESSED, OUT_TABLES
 
+# Same-month weather, previous-month surface state, static fuel and terrain.
+# Same-month NDWI, LST and soil moisture are deliberately absent: they are
+# changed by the fire (burn scars, smoke, heat) and would let the outcome
+# explain itself.
 FEATURES = ["vpd", "wind_speed", "precip_mm", "treecover", "loss_frac",
-            "elevation", "slope", "peat_likely",
-            "ndwi", "lst_k", "soil_moisture",
-            "vpd_lag1", "precip_lag1", "sm_lag1", "precip_cum2"]
+            "elevation", "slope", "peat_share", "peat_thickness_cm",
+            "ndwi_lag1", "lst_lag1", "sm_lag1",
+            "vpd_lag1", "precip_lag1", "precip_cum2"]
 
 
 @dataclass
@@ -25,6 +29,7 @@ class FoldResult:
     roc_auc: float
     pr_auc: float
     n_test_pos: int
+    prevalence: float
 
 
 def _params(pos: int, neg: int) -> dict:
@@ -37,7 +42,11 @@ def _params(pos: int, neg: int) -> dict:
         "feature_fraction": 0.8,
         "bagging_fraction": 0.8,
         "bagging_freq": 1,
-        "scale_pos_weight": max(neg / max(pos, 1), 1.0),
+        # No class reweighting. Reweighting inflates every predicted value, so
+        # the "probabilities" the earlier version reported (0.36 at high VPD,
+        # a mean of 0.16 in Ogan Komering Ilir) were not probabilities. AUC
+        # is unaffected by the weighting; calibration is.
+        "scale_pos_weight": 1.0,
         "seed": RANDOM_SEED,
         "verbose": -1,
     }
@@ -64,6 +73,7 @@ def train_susceptibility(table: pd.DataFrame) -> dict:
             roc_auc=float(roc_auc_score(test["fire"], proba)) if test["fire"].nunique() > 1 else float("nan"),
             pr_auc=float(average_precision_score(test["fire"], proba)) if test["fire"].nunique() > 1 else float("nan"),
             n_test_pos=int(test["fire"].sum()),
+            prevalence=round(float(test["fire"].mean()), 4),
         ))
         log_step(f"fold test={test_year}: ROC-AUC={folds[-1].roc_auc:.3f} "
                  f"PR-AUC={folds[-1].pr_auc:.3f}", "OK")
@@ -74,7 +84,7 @@ def train_susceptibility(table: pd.DataFrame) -> dict:
     dfull = lgb.Dataset(table[FEATURES], label=table["fire"])
     final = lgb.train(_params(pos, neg), dfull, num_boost_round=400)
 
-    scores = table[["cell_id", "district", "year", "fire", "peat_likely"]].copy()
+    scores = table[["cell_id", "district", "year", "month", "fire", "peat_likely", "peat_share"]].copy()
     scores["susceptibility"] = final.predict(table[FEATURES])
     scores_path = DATA_PROCESSED / "susceptibility_scores.parquet"
     scores.to_parquet(scores_path, index=False)

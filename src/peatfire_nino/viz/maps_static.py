@@ -60,14 +60,16 @@ def _finalize(ax, title, subtitle) -> None:
 def _overview() -> None:
     aoi = load_districts()
     fires = pd.concat([fetch_firms(y) for y in (2023, 2024, 2025)], ignore_index=True)
-    fires = gpd.GeoDataFrame(fires, geometry=fires.geometry, crs=4326)
+    per_cell = fires.groupby("cell_id", as_index=False)["n_fire_px"].sum()
+    grid = build_grid(aoi)
+    burning = grid.merge(per_cell, on="cell_id", how="inner")
     fig, ax = plt.subplots(figsize=(12, 7))
     aoi.plot(ax=ax, facecolor="#ffffff", edgecolor=BOUNDARY, linewidth=BW, alpha=0.3)
-    fires.plot(ax=ax, markersize=2.5, color="#D32F2F", alpha=0.5, label="Active fire detection")
+    burning.plot(ax=ax, column="n_fire_px", cmap="YlOrRd", linewidth=0, alpha=0.9,
+                 legend=True, legend_kwds={"label": "Fire pixel-months per 3 km cell", "shrink": 0.6})
     _basemap(ax); _frame(ax, aoi); _labels(ax, aoi); _north(ax)
-    ax.legend(loc="lower left", fontsize=8.5, framealpha=0.92, markerscale=2.5, edgecolor="#ccc")
-    _finalize(ax, "Study Area and Active Fire Detections",
-              "VIIRS S-NPP, 2023 to 2025 dry season (June to November)")
+    _finalize(ax, "Study Area and Active Fire",
+              "MODIS active fire (FIRMS, 1 km), 2023 to 2025 dry season (June to November)")
     fig.savefig(OUT_FIGURES / "01_overview.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 
@@ -85,7 +87,7 @@ def _susceptibility() -> None:
     aoi.plot(ax=ax, facecolor="none", edgecolor=BOUNDARY, linewidth=BW)
     _basemap(ax); _frame(ax, gdf); _labels(ax, aoi); _north(ax)
     _finalize(ax, "Peatland Fire Susceptibility, 2023 El Nino Peak",
-              "LightGBM modelled probability on peat-likely cells, dry season mean")
+              "LightGBM monthly fire probability, dry season mean, cells at least half PEATGRIDS peat")
     fig.savefig(OUT_FIGURES / "02_susceptibility.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 
@@ -123,7 +125,7 @@ def _smoke() -> None:
                     arrowprops=dict(arrowstyle="-|>", color="#D32F2F", lw=2.6))
     _basemap(ax); _frame(ax, aoi); _labels(ax, aoi); _north(ax)
     _finalize(ax, "Dominant Smoke Export Direction (Proxy)",
-              "FRP-weighted ERA5 wind, 24 hour straight-line, high activity months 2023")
+              "Fire-weighted ERA5-Land wind on high-activity days, 24 hour straight line, 2023")
     fig.savefig(OUT_FIGURES / "04_smoke_export.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 
@@ -146,8 +148,8 @@ def _year_delta() -> None:
     cax.tick_params(labelsize=7)
     aoi.plot(ax=ax, facecolor="none", edgecolor=BOUNDARY, linewidth=BW)
     _basemap(ax); _frame(ax, gdf); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "El Nino Signal in Fire Susceptibility, 2023 versus 2024",
-              "Red marks cells where El Nino raised modelled fire risk")
+    _finalize(ax, "Modelled Fire Susceptibility, 2023 minus 2024",
+              "Dry-season mean monthly probability; red is higher in the 2023 El Nino season, blue higher in 2024")
     fig.savefig(OUT_FIGURES / "05_year_delta.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 

@@ -40,6 +40,8 @@ def spatial_cross_validate() -> dict:
             "pr_auc": round(float(average_precision_score(test["fire"], proba)), 3),
             "n_test": int(len(test)),
             "n_test_fire": int(test["fire"].sum()),
+            # PR-AUC of a model with no skill equals the prevalence.
+            "prevalence": round(float(test["fire"].mean()), 4),
         })
         log_step(f"spatial fold held={held}: ROC-AUC={folds[-1]['roc_auc']:.3f} "
                  f"PR-AUC={folds[-1]['pr_auc']:.3f}", "OK")

@@ -10,7 +10,7 @@ DPI = 300
 BOUNDARY = "#222222"
 BW = 1.1
 HALO = [pe.withStroke(linewidth=3.0, foreground="white")]
-SRC = "Data: NASA FIRMS, ERA5-Land, Hansen GFC, MERIT DEM, GADM 4.1"
+SRC = "Data: NASA FIRMS (MODIS), ERA5-Land, Hansen GFC, MERIT DEM, PEATGRIDS, GADM 4.1"
 
 # basemap: "relief" (shaded topo), "gray", "voyager", "positron", "imagery", "dark"
 BASEMAP = "relief"
@@ -19,13 +19,17 @@ PALETTES = {"susceptibility": "YlOrRd", "diverging": "RdBu_r",
             "interaction": "#6A1B9A", "shap": "#B30000"}
 
 PRETTY = {
-    "ndwi": "NDWI", "vpd": "VPD", "lst_k": "LST", "soil_moisture": "Soil Moisture",
-    "treecover": "Tree Cover", "loss_frac": "Forest Loss", "elevation": "Elevation",
-    "slope": "Slope", "peat_likely": "Peat (proxy)", "wind_speed": "Wind Speed",
-    "precip_mm": "Precipitation", "precip_lag1": "Precip (prev month)",
-    "vpd_lag1": "VPD (prev month)", "sm_lag1": "Soil Moisture (prev month)",
-    "precip_cum2": "Precip (2-month sum)",
+    "ndwi": "NDWI", "vpd": "VPD (kPa)", "lst_k": "LST (K)", "soil_moisture": "Soil Moisture (m3/m3)",
+    "treecover": "Tree Cover 2000 (%)", "loss_frac": "Forest Loss to 2022 (share)", "elevation": "Elevation (m)",
+    "slope": "Slope (deg)", "peat_likely": "Peat (PEATGRIDS)", "wind_speed": "Wind Speed (m/s)",
+    "peat_share": "Peat Share", "peat_thickness_cm": "Peat Thickness (cm)",
+    "ndwi_lag1": "NDWI (prev month)", "lst_lag1": "LST (prev month, K)",
+    "precip_mm": "Precipitation (mm/day)", "precip_lag1": "Precip (prev month, mm/day)",
+    "vpd_lag1": "VPD (prev month, kPa)", "sm_lag1": "Soil Moisture (prev month, m3/m3)",
+    "precip_cum2": "Precip (this + prev month, mm/day)",
 }
+# Precipitation is the monthly mean of ERA5-Land daily totals, so its unit is
+# mm per day; precip_cum2 adds this month's and last month's daily means.
 GLOSSARY = ("NDWI: Normalized Difference Water Index   |   VPD: Vapour Pressure Deficit"
             "   |   LST: Land Surface Temperature")
 

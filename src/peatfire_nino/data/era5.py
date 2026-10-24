@@ -12,7 +12,7 @@ import geopandas as gpd
 import pandas as pd
 from tqdm import tqdm
 
-from peatfire_nino.config import DRY_SEASON_MONTHS, GEE_ASSETS
+from peatfire_nino.config import PREDICTOR_MONTHS, GEE_ASSETS
 from peatfire_nino.data.aoi import build_grid, load_districts
 from peatfire_nino.io.cache import file_exists
 from peatfire_nino.io.gee_session import init_earth_engine
@@ -45,10 +45,9 @@ def fetch_era5_predictors(year: int) -> pd.DataFrame:
 
     BATCH = 2000
     recs = []
-    for m in tqdm(DRY_SEASON_MONTHS, desc=f"ERA5 {year} months"):
-        last_day = calendar.monthrange(year, m)[1]
+    for m in tqdm(PREDICTOR_MONTHS, desc=f"ERA5 {year} months"):
         start = ee.Date.fromYMD(year, m, 1)
-        end = ee.Date.fromYMD(year, m, last_day)
+        end = start.advance(1, "month")  # exclusive, keeps the last day
         coll = (ee.ImageCollection(GEE_ASSETS["era5_land_daily"])
                 .filterDate(start, end)
                 .select(list(_BANDS.keys())))
@@ -89,7 +88,7 @@ def fetch_era5_predictors(year: int) -> pd.DataFrame:
         "license": "Copernicus C3S license (free, attribution required)",
         "access_date": date.today().isoformat(),
         "spatial_resolution": "~9 km native, reduced to grid cells",
-        "temporal_coverage": f"{year} Jun-Nov, monthly means",
+        "temporal_coverage": f"{year} May-Nov, monthly means",
         "preprocessing_steps": "per month: ImageCollection.mean, batched reduceRegions to grid",
         "unit": "t2m/td2m in K; precip in m; winds in m/s",
         "citation_apa": "Munoz-Sabater, J., et al. (2021). ERA5-Land: a state-of-the-art global "

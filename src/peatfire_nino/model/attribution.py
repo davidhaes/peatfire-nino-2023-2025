@@ -14,13 +14,9 @@ from peatfire_nino.model.susceptibility import FEATURES
 def compute_shap(model, table: pd.DataFrame) -> dict:
     """Return global + per-district mean |SHAP| and save CSV/JSON artefacts."""
     explainer = shap.TreeExplainer(model)
-    # subsample for speed if very large; keep all fire-positive
-    if len(table) > 60000:
-        pos = table[table["fire"] == 1]
-        neg = table[table["fire"] == 0].sample(60000 - len(pos), random_state=42)
-        sample = pd.concat([pos, neg])
-    else:
-        sample = table
+    # A plain random sample, so the attribution describes the landscape the
+    # model is applied to rather than a fire-enriched subset of it.
+    sample = table.sample(min(60000, len(table)), random_state=42) if len(table) > 60000 else table
     sv = explainer.shap_values(sample[FEATURES])
     # binary LightGBM TreeSHAP may return single array; normalise
     sv_arr = sv[1] if isinstance(sv, list) else sv

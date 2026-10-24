@@ -1,5 +1,5 @@
 """emerging_hotspot.py
-Emerging Hotspot Analysis on a monthly FRP space-time cube.
+Emerging Hotspot Analysis on a monthly fire-pixel space-time cube.
 Getis-Ord Gi* per time bin + Mann-Kendall trend -> hotspot category.
 """
 from __future__ import annotations
@@ -13,7 +13,7 @@ import pymannkendall as mk
 from libpysal.weights import KNN
 from esda.getisord import G_Local
 
-from peatfire_nino.config import STUDY_YEARS
+from peatfire_nino.config import DRY_SEASON_MONTHS, STUDY_YEARS
 from peatfire_nino.data.aoi import build_grid, load_districts
 from peatfire_nino.data.firms import fetch_firms
 from peatfire_nino.io.logging_utils import log_step
@@ -21,14 +21,17 @@ from peatfire_nino.io.paths import DATA_PROCESSED, OUT_TABLES
 
 
 def _space_time_cube(grid: gpd.GeoDataFrame) -> pd.DataFrame:
-    """FRP sum per cell per (year, month) bin."""
+    """Fire pixels per cell per (year, month) bin.
+
+    Intensity is the number of 1 km MODIS fire pixels in the cell that month.
+    The earlier version summed the band 21 brightness temperature under the
+    name FRP; brightness temperature is not a quantity that adds up.
+    """
     recs = []
     for year in STUDY_YEARS:
         fires = fetch_firms(year)
-        joined = gpd.sjoin(fires, grid[["cell_id", "geometry"]],
-                           predicate="within", how="inner")
-        agg = (joined.groupby(["cell_id", "month"])["frp"].sum()
-               .reset_index().rename(columns={"frp": "frp_sum"}))
+        agg = fires.groupby(["cell_id", "month"], as_index=False)["n_fire_px"].sum()
+        agg = agg.rename(columns={"n_fire_px": "intensity"})
         agg["year"] = year
         recs.append(agg)
     cube = pd.concat(recs, ignore_index=True)
@@ -50,13 +53,15 @@ def emerging_hotspot_analysis() -> dict:
     w = KNN.from_dataframe(cents, k=8)
     w.transform = "r"
 
-    bins = sorted(cube["bin"].unique())
+    # Every dry-season month is a bin, including months with no fire at all,
+    # so the Mann-Kendall series have the same length and spacing everywhere.
+    bins = [f"{y}-{m:02d}" for y in STUDY_YEARS for m in DRY_SEASON_MONTHS]
     gi_matrix = pd.DataFrame(index=cents["cell_id"].values)
 
     for b in bins:
-        sub = cube[cube["bin"] == b][["cell_id", "frp_sum"]]
+        sub = cube[cube["bin"] == b][["cell_id", "intensity"]]
         vals = cents[["cell_id"]].merge(sub, on="cell_id", how="left").fillna(0.0)
-        y = vals["frp_sum"].to_numpy()
+        y = vals["intensity"].to_numpy()
         if y.sum() == 0:
             gi_matrix[b] = 0.0
             continue

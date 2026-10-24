@@ -1,134 +1,137 @@
 {
+  "index": "ONI computed from NOAA OISST v2.1, Nino 3.4, 1991-2020 base, centred 3-month mean",
   "monthly": [
     {
       "year": 2023,
       "month": 6,
-      "oni": 0.5,
-      "fire_count": 42
+      "oni": 0.8346111130371886,
+      "fire_pixels": 420.9764705882353
     },
     {
       "year": 2023,
       "month": 7,
-      "oni": 0.8,
-      "fire_count": 38
+      "oni": 1.1191748378279083,
+      "fire_pixels": 395.5843137254902
     },
     {
       "year": 2023,
       "month": 8,
-      "oni": 1.1,
-      "fire_count": 87
+      "oni": 1.3361485065423129,
+      "fire_pixels": 1381.7372549019608
     },
     {
       "year": 2023,
       "month": 9,
-      "oni": 1.3,
-      "fire_count": 208
+      "oni": 1.5125596612462775,
+      "fire_pixels": 5608.1098039215685
     },
     {
       "year": 2023,
       "month": 10,
-      "oni": 1.6,
-      "fire_count": 198
+      "oni": 1.705508586377211,
+      "fire_pixels": 8022.972549019608
     },
     {
       "year": 2023,
       "month": 11,
-      "oni": 1.8,
-      "fire_count": 128
+      "oni": 1.8474017957606368,
+      "fire_pixels": 1547.2666666666667
     },
     {
       "year": 2024,
       "month": 6,
-      "oni": 0.2,
-      "fire_count": 7
+      "oni": 0.2234622817898154,
+      "fire_pixels": 87.26274509803922
     },
     {
       "year": 2024,
       "month": 7,
-      "oni": -0.1,
-      "fire_count": 39
+      "oni": 0.11178469448254684,
+      "fire_pixels": 419.3607843137255
     },
     {
       "year": 2024,
       "month": 8,
-      "oni": -0.3,
-      "fire_count": 28
+      "oni": -0.04767311249109696,
+      "fire_pixels": 362.62745098039215
     },
     {
       "year": 2024,
       "month": 9,
-      "oni": -0.4,
-      "fire_count": 92
+      "oni": -0.21888630209235652,
+      "fire_pixels": 1037.8549019607842
     },
     {
       "year": 2024,
       "month": 10,
-      "oni": -0.6,
-      "fire_count": 81
+      "oni": -0.24032981396510897,
+      "fire_pixels": 771.2823529411764
     },
     {
       "year": 2024,
       "month": 11,
-      "oni": -0.7,
-      "fire_count": 20
+      "oni": -0.36440384866196024,
+      "fire_pixels": 136.27058823529413
     },
     {
       "year": 2025,
       "month": 6,
-      "oni": -0.1,
-      "fire_count": 5
+      "oni": -0.02726430515732048,
+      "fire_pixels": 51.60392156862745
     },
     {
       "year": 2025,
       "month": 7,
-      "oni": 0.0,
-      "fire_count": 39
+      "oni": -0.11987628534023287,
+      "fire_pixels": 397.2352941176471
     },
     {
       "year": 2025,
       "month": 8,
-      "oni": 0.1,
-      "fire_count": 24
+      "oni": -0.2790101523584892,
+      "fire_pixels": 241.521568627451
     },
     {
       "year": 2025,
       "month": 9,
-      "oni": 0.1,
-      "fire_count": 39
+      "oni": -0.4257807833402249,
+      "fire_pixels": 441.5843137254902
     },
     {
       "year": 2025,
       "month": 10,
-      "oni": 0.2,
-      "fire_count": 27
+      "oni": -0.5622790526689473,
+      "fire_pixels": 286.24313725490197
     },
     {
       "year": 2025,
       "month": 11,
-      "oni": 0.2,
-      "fire_count": 15
+      "oni": -0.6236954605268702,
+      "fire_pixels": 143.23921568627452
     }
   ],
   "yearly": [
     {
       "year": 2023,
-      "mean_oni": 1.1833333333333333,
-      "total_fire": 701
+      "mean_oni": 1.392567416798589,
+      "total_fire_pixels": 17376.647058823528
     },
     {
       "year": 2024,
-      "mean_oni": -0.31666666666666665,
-      "total_fire": 267
+      "mean_oni": -0.08934101682302674,
+      "total_fire_pixels": 2814.6588235294116
     },
     {
       "year": 2025,
-      "mean_oni": 0.08333333333333333,
-      "total_fire": 149
+      "mean_oni": -0.33965100656534747,
+      "total_fire_pixels": 1561.4274509803922
     }
   ],
-  "pearson_r": 0.684,
-  "pearson_p": 0.0018,
-  "spearman_r": 0.416,
-  "spearman_p": 0.086,
-  "note": "ONI from NOAA CPC (NEEDS VERIFICATION). Positive correlation links El Nino strength to dry-season fire activity."
+  "pearson_r": 0.656,
+  "spearman_r": 0.548,
+  "n_months": 18,
+  "n_seasons": 3,
+  "season_permutation_p": 0.167,
+  "season_permutations": 6,
+  "note": "Descriptive. Eighteen months from three seasons cannot establish that ENSO drives the difference; the season-block permutation p cannot fall below 1/6 by construction. The comparison that carries information is between seasons."
 }

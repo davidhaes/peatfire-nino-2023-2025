@@ -1,235 +1,416 @@
 {
   "partial_dependence": {
-    "ndwi": [
-      {
-        "bin_center": -0.05485470181348308,
-        "mean_fire_prob": 0.38834296125487044,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.18444973727536693,
-        "mean_fire_prob": 0.23135529094182034,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.22379731214624687,
-        "mean_fire_prob": 0.1780002348691647,
-        "n": 3110
-      },
-      {
-        "bin_center": 0.24946958629519705,
-        "mean_fire_prob": 0.13882125706036516,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.27127191743681905,
-        "mean_fire_prob": 0.10256937933451146,
-        "n": 3110
-      },
-      {
-        "bin_center": 0.2920423749662,
-        "mean_fire_prob": 0.1009847768922855,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.31343025717150275,
-        "mean_fire_prob": 0.07583960513657172,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.3377969663085012,
-        "mean_fire_prob": 0.06737686791907797,
-        "n": 3110
-      },
-      {
-        "bin_center": 0.3711541388065063,
-        "mean_fire_prob": 0.05407471890858883,
-        "n": 3111
-      },
-      {
-        "bin_center": 0.5807851815893359,
-        "mean_fire_prob": 0.04246191266851391,
-        "n": 3110
-      }
-    ],
     "vpd": [
       {
-        "bin_center": 0.33585730588235646,
-        "mean_fire_prob": 0.07223343493348526,
-        "n": 3111
+        "bin_center": 0.3774898297012257,
+        "mean_fire_prob": 0.0373252824235921,
+        "n": 20000
       },
       {
-        "bin_center": 0.4489776464982465,
-        "mean_fire_prob": 0.06458157822579737,
-        "n": 3108
+        "bin_center": 0.42324175174250733,
+        "mean_fire_prob": 0.03673080129698128,
+        "n": 20000
       },
       {
-        "bin_center": 0.4927688053023571,
-        "mean_fire_prob": 0.06673263113466141,
-        "n": 3113
+        "bin_center": 0.44881519489523836,
+        "mean_fire_prob": 0.03436846823218746,
+        "n": 20000
       },
       {
-        "bin_center": 0.5283085922752324,
-        "mean_fire_prob": 0.07219478585278971,
-        "n": 3106
+        "bin_center": 0.46939281993226045,
+        "mean_fire_prob": 0.037885420310637484,
+        "n": 20000
       },
       {
-        "bin_center": 0.5608965869593856,
-        "mean_fire_prob": 0.08264793495658272,
-        "n": 3114
+        "bin_center": 0.4909494563962531,
+        "mean_fire_prob": 0.03760435490019343,
+        "n": 20000
       },
       {
-        "bin_center": 0.5998702977927901,
-        "mean_fire_prob": 0.08926160286714775,
-        "n": 3112
+        "bin_center": 0.5107802819995388,
+        "mean_fire_prob": 0.03436075477516112,
+        "n": 20000
       },
       {
-        "bin_center": 0.6500189670259409,
-        "mean_fire_prob": 0.09914739826220018,
-        "n": 3108
+        "bin_center": 0.5264887816204351,
+        "mean_fire_prob": 0.031077521218319096,
+        "n": 20000
       },
       {
-        "bin_center": 0.735334073288643,
-        "mean_fire_prob": 0.1942112149345167,
-        "n": 3113
+        "bin_center": 0.5407633873605024,
+        "mean_fire_prob": 0.03182692792415647,
+        "n": 20000
       },
       {
-        "bin_center": 0.8904088411858603,
-        "mean_fire_prob": 0.27844398650046037,
-        "n": 3110
+        "bin_center": 0.5560137983589807,
+        "mean_fire_prob": 0.030688943229719483,
+        "n": 20000
       },
       {
-        "bin_center": 1.4341227292909824,
-        "mean_fire_prob": 0.3598654065559365,
-        "n": 3110
+        "bin_center": 0.5725786808147753,
+        "mean_fire_prob": 0.037508263028183976,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.5912449610644255,
+        "mean_fire_prob": 0.033989078770324414,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.6122899743850636,
+        "mean_fire_prob": 0.03550515159236524,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.6383619046886957,
+        "mean_fire_prob": 0.034363427450117376,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.6689367553724525,
+        "mean_fire_prob": 0.04024650479448029,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.7096911219998172,
+        "mean_fire_prob": 0.05023282344407375,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.7802788527717497,
+        "mean_fire_prob": 0.04779095155289195,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.8618084923624418,
+        "mean_fire_prob": 0.06892789106413381,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.9821487887360689,
+        "mean_fire_prob": 0.07150114541110211,
+        "n": 20000
+      },
+      {
+        "bin_center": 1.140439869747901,
+        "mean_fire_prob": 0.08114254022370991,
+        "n": 20000
       }
     ],
-    "soil_moisture": [
+    "peat_thickness_cm": [
       {
-        "bin_center": 0.09271411895751956,
-        "mean_fire_prob": 0.09900827541545341,
-        "n": 9332
+        "bin_center": 0.0,
+        "mean_fire_prob": 0.03140035973044732,
+        "n": 20000
       },
       {
-        "bin_center": 0.24220988452434544,
-        "mean_fire_prob": 0.2412718997464235,
-        "n": 3109
+        "bin_center": 45.405659116409126,
+        "mean_fire_prob": 0.032859265417209,
+        "n": 20000
       },
       {
-        "bin_center": 0.32255563139915466,
-        "mean_fire_prob": 0.193416701544444,
-        "n": 3107
+        "bin_center": 93.80398932718276,
+        "mean_fire_prob": 0.03229261851634775,
+        "n": 20000
       },
       {
-        "bin_center": 0.3680034577846527,
-        "mean_fire_prob": 0.22052465474444494,
-        "n": 3115
+        "bin_center": 123.12509148546339,
+        "mean_fire_prob": 0.03735622761127589,
+        "n": 20000
       },
       {
-        "bin_center": 0.415715828537941,
-        "mean_fire_prob": 0.16722230424836176,
-        "n": 3110
+        "bin_center": 146.350447373987,
+        "mean_fire_prob": 0.04105349257397124,
+        "n": 20000
       },
       {
-        "bin_center": 0.4772423803806306,
-        "mean_fire_prob": 0.08754638452843502,
-        "n": 3112
+        "bin_center": 169.65729891376037,
+        "mean_fire_prob": 0.047624053875082416,
+        "n": 20000
       },
       {
-        "bin_center": 0.5745739161968233,
-        "mean_fire_prob": 0.07575044562520933,
-        "n": 3111
+        "bin_center": 193.90845153038015,
+        "mean_fire_prob": 0.04914814218767833,
+        "n": 20000
       },
       {
-        "bin_center": 0.7179276764392853,
-        "mean_fire_prob": 0.09709161455186052,
-        "n": 3109
+        "bin_center": 212.68475390269094,
+        "mean_fire_prob": 0.050569671363542554,
+        "n": 20000
+      },
+      {
+        "bin_center": 229.0687978337809,
+        "mean_fire_prob": 0.05156608335267699,
+        "n": 20000
+      },
+      {
+        "bin_center": 246.93726840430793,
+        "mean_fire_prob": 0.049627619757513515,
+        "n": 20000
+      },
+      {
+        "bin_center": 269.35855506943585,
+        "mean_fire_prob": 0.04996418908685533,
+        "n": 20000
+      },
+      {
+        "bin_center": 293.19620771867875,
+        "mean_fire_prob": 0.05049483645493926,
+        "n": 20000
+      },
+      {
+        "bin_center": 323.2494873356829,
+        "mean_fire_prob": 0.049184076202353336,
+        "n": 20000
+      },
+      {
+        "bin_center": 363.3531674786071,
+        "mean_fire_prob": 0.0476149548274537,
+        "n": 20000
+      },
+      {
+        "bin_center": 439.867473488987,
+        "mean_fire_prob": 0.04854266999752624,
+        "n": 20000
+      },
+      {
+        "bin_center": 596.994045162493,
+        "mean_fire_prob": 0.06889806462741646,
+        "n": 20000
       }
     ],
-    "lst_k": [
+    "sm_lag1": [
       {
-        "bin_center": 286.98,
-        "mean_fire_prob": 0.05901665271587745,
-        "n": 3109
+        "bin_center": 0.21697034016251565,
+        "mean_fire_prob": 0.053790731626333396,
+        "n": 20000
       },
       {
-        "bin_center": 299.6453333333334,
-        "mean_fire_prob": 0.05185871687071632,
-        "n": 3113
+        "bin_center": 0.26150423288345337,
+        "mean_fire_prob": 0.051242543161343475,
+        "n": 20000
       },
       {
-        "bin_center": 300.2253333333333,
-        "mean_fire_prob": 0.0532825761550595,
-        "n": 3081
+        "bin_center": 0.29866623878479004,
+        "mean_fire_prob": 0.04917189595915911,
+        "n": 20000
       },
       {
-        "bin_center": 300.68,
-        "mean_fire_prob": 0.07394113784171738,
-        "n": 3118
+        "bin_center": 0.3232884109020233,
+        "mean_fire_prob": 0.05055939096003548,
+        "n": 20000
       },
       {
-        "bin_center": 301.02,
-        "mean_fire_prob": 0.09886532364493729,
-        "n": 1693
+        "bin_center": 0.339229941368103,
+        "mean_fire_prob": 0.04171624536493677,
+        "n": 20000
       },
       {
-        "bin_center": 301.29999999999995,
-        "mean_fire_prob": 0.14009165276516733,
-        "n": 4518
+        "bin_center": 0.3529714226722717,
+        "mean_fire_prob": 0.04170915345470566,
+        "n": 20000
       },
       {
-        "bin_center": 301.73,
-        "mean_fire_prob": 0.10956590296425599,
-        "n": 3131
+        "bin_center": 0.3688507676124573,
+        "mean_fire_prob": 0.041852422488900004,
+        "n": 20000
       },
       {
-        "bin_center": 302.35333333333335,
-        "mean_fire_prob": 0.13779486686248765,
-        "n": 3114
+        "bin_center": 0.3904913663864136,
+        "mean_fire_prob": 0.03928515560015237,
+        "n": 20000
       },
       {
-        "bin_center": 303.3183333333334,
-        "mean_fire_prob": 0.22474118844557356,
-        "n": 3118
+        "bin_center": 0.41603863835334776,
+        "mean_fire_prob": 0.03963409780295237,
+        "n": 20000
       },
       {
-        "bin_center": 312.065,
-        "mean_fire_prob": 0.41100924996041366,
-        "n": 3111
+        "bin_center": 0.44242942333221436,
+        "mean_fire_prob": 0.03103590209348597,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.4634843170642853,
+        "mean_fire_prob": 0.031366659497917136,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.47995105385780334,
+        "mean_fire_prob": 0.029248193148987366,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.5182631015777588,
+        "mean_fire_prob": 0.0263904291489555,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.5664116084575652,
+        "mean_fire_prob": 0.026592629728730804,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.6089260131120682,
+        "mean_fire_prob": 0.03137522884750589,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.646632194519043,
+        "mean_fire_prob": 0.028571885920403963,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.6938875913619995,
+        "mean_fire_prob": 0.026336140031874466,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.7277517318725586,
+        "mean_fire_prob": 0.03582257206563535,
+        "n": 20000
+      },
+      {
+        "bin_center": 0.7537480294704435,
+        "mean_fire_prob": 0.021641830150853802,
+        "n": 20000
+      }
+    ],
+    "precip_lag1": [
+      {
+        "bin_center": 1.0959228591223145,
+        "mean_fire_prob": 0.06048869399325265,
+        "n": 20000
+      },
+      {
+        "bin_center": 1.8649366361195518,
+        "mean_fire_prob": 0.046817278595932196,
+        "n": 20000
+      },
+      {
+        "bin_center": 2.3558463210671405,
+        "mean_fire_prob": 0.03854680654883651,
+        "n": 20000
+      },
+      {
+        "bin_center": 2.906851738189546,
+        "mean_fire_prob": 0.03417096763644331,
+        "n": 20000
+      },
+      {
+        "bin_center": 3.483261936254884,
+        "mean_fire_prob": 0.033180679196725404,
+        "n": 20000
+      },
+      {
+        "bin_center": 3.997818296747763,
+        "mean_fire_prob": 0.028211134929059283,
+        "n": 20000
+      },
+      {
+        "bin_center": 4.381367537146138,
+        "mean_fire_prob": 0.026727055184588715,
+        "n": 20000
+      },
+      {
+        "bin_center": 4.6607956567547655,
+        "mean_fire_prob": 0.02769071679507519,
+        "n": 20000
+      },
+      {
+        "bin_center": 4.876031313853771,
+        "mean_fire_prob": 0.02964711838905438,
+        "n": 20000
+      },
+      {
+        "bin_center": 5.1084952748690355,
+        "mean_fire_prob": 0.029311921883880723,
+        "n": 20000
+      },
+      {
+        "bin_center": 5.3361356225981,
+        "mean_fire_prob": 0.029114229263236212,
+        "n": 20000
+      },
+      {
+        "bin_center": 5.577307837893821,
+        "mean_fire_prob": 0.03055420788152245,
+        "n": 20000
+      },
+      {
+        "bin_center": 5.844219184756247,
+        "mean_fire_prob": 0.029263503739778138,
+        "n": 20000
+      },
+      {
+        "bin_center": 6.163868574375438,
+        "mean_fire_prob": 0.03179227437921685,
+        "n": 20000
+      },
+      {
+        "bin_center": 6.530477576221354,
+        "mean_fire_prob": 0.03592430669045463,
+        "n": 20000
+      },
+      {
+        "bin_center": 6.9688640432114735,
+        "mean_fire_prob": 0.031225212654549205,
+        "n": 20000
+      },
+      {
+        "bin_center": 7.444610587998434,
+        "mean_fire_prob": 0.03233252758155972,
+        "n": 20000
+      },
+      {
+        "bin_center": 8.053015561308758,
+        "mean_fire_prob": 0.02840546376669572,
+        "n": 20000
+      },
+      {
+        "bin_center": 9.324512609626984,
+        "mean_fire_prob": 0.0372471410346524,
+        "n": 20000
       }
     ]
   },
   "top_interactions": [
     {
       "feature_a": "vpd",
-      "feature_b": "soil_moisture",
-      "interaction_strength": 0.08730084022228869
+      "feature_b": "peat_thickness_cm",
+      "interaction_strength": 0.0485824612692055
     },
     {
-      "feature_a": "ndwi",
-      "feature_b": "lst_k",
-      "interaction_strength": 0.04977591588098032
+      "feature_a": "elevation",
+      "feature_b": "sm_lag1",
+      "interaction_strength": 0.040842165439238395
     },
     {
-      "feature_a": "vpd",
-      "feature_b": "ndwi",
-      "interaction_strength": 0.04071755516463491
+      "feature_a": "peat_thickness_cm",
+      "feature_b": "sm_lag1",
+      "interaction_strength": 0.04073631265363016
     },
     {
-      "feature_a": "ndwi",
-      "feature_b": "soil_moisture",
-      "interaction_strength": 0.038246077410062626
-    },
-    {
-      "feature_a": "lst_k",
-      "feature_b": "soil_moisture",
-      "interaction_strength": 0.025394576087640907
+      "feature_a": "sm_lag1",
+      "feature_b": "precip_lag1",
+      "interaction_strength": 0.03882474689738505
     },
     {
       "feature_a": "vpd",
-      "feature_b": "lst_k",
-      "interaction_strength": 0.024167951247804895
+      "feature_b": "elevation",
+      "interaction_strength": 0.03445400125327038
+    },
+    {
+      "feature_a": "vpd",
+      "feature_b": "sm_lag1",
+      "interaction_strength": 0.03272352875942784
     }
   ],
-  "note": "PDP shows how fire probability responds to each driver; interactions reveal compound dryness effects."
+  "top_drivers_by_shap": [
+    "vpd",
+    "peat_thickness_cm",
+    "sm_lag1",
+    "precip_lag1"
+  ],
+  "note": "Partial dependence on a random sample of cell-months: mean predicted monthly fire probability with one driver fixed at each value. Interaction strength is mean absolute SHAP interaction value, in log-odds units."
 }

@@ -1,8 +1,8 @@
 {
-  "morans_I": 0.5453,
+  "morans_I": 0.3702,
   "expected_I": -0.0001,
   "p_value": 0.001,
-  "z_score": 102.035,
-  "n_cells": 7971,
+  "z_score": 65.192,
+  "n_cells": 7897,
   "interpretation": "Moran's I near expected (~ -1/(n-1)) with high p means residuals are spatially random (good). Significant positive I means a spatial covariate is still missing (e.g. true peat depth, water table)."
 }

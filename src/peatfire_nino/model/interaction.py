@@ -17,45 +17,46 @@ from peatfire_nino.model.susceptibility import FEATURES
 
 
 def compute_interactions() -> dict:
-    """Compute partial dependence on top drivers + top pairwise interactions."""
+    """Partial dependence and pairwise SHAP interactions for the top drivers.
+
+    The sample is a plain random sample of the table, so it represents the
+    landscape the model is applied to. The earlier version kept every fire
+    row and 30,000 non-fire rows, then averaged predictions within bins of
+    each driver. On a fire-enriched sample that curve is not a partial
+    dependence and its levels are not fire probabilities.
+
+    Partial dependence here is the textbook one: set a driver to a value for
+    every row in the sample, predict, average. The drivers are the four with
+    the largest mean absolute SHAP value, not a hard-coded list.
+    """
     table = pd.read_parquet(DATA_PROCESSED / "feature_table.parquet")
     model = lgb.Booster(model_file=str(DATA_PROCESSED / "lgbm_susceptibility.txt"))
 
-    # subsample for speed; keep all positives
-    pos = table[table["fire"] == 1]
-    neg = table[table["fire"] == 0].sample(min(30000, (table["fire"] == 0).sum()),
-                                           random_state=42)
-    sample = pd.concat([pos, neg]).reset_index(drop=True)
+    sample = table.sample(min(20000, len(table)), random_state=42).reset_index(drop=True)
     X = sample[FEATURES]
 
     explainer = shap.TreeExplainer(model)
     sv = explainer.shap_values(X)
     sv_arr = sv[1] if isinstance(sv, list) else sv
+    importance = pd.Series(np.abs(sv_arr).mean(axis=0), index=FEATURES).sort_values(ascending=False)
+    top_drivers = importance.index[:4].tolist()
 
-    # --- Partial dependence: mean predicted prob across bins of each top driver ---
-    top_drivers = ["ndwi", "vpd", "soil_moisture", "lst_k"]
     pdp = {}
     for feat in top_drivers:
-        if feat not in X.columns:
-            continue
-        vals = X[feat].to_numpy()
-        proba = model.predict(X)
-        bins = np.quantile(vals, np.linspace(0, 1, 11))
-        bins = np.unique(bins)
-        idx = np.digitize(vals, bins)
+        col = X[feat].dropna()
+        grid = np.unique(np.quantile(col, np.linspace(0.05, 0.95, 19)))
         curve = []
-        for b in range(1, len(bins)):
-            mask = idx == b
-            if mask.sum() > 0:
-                curve.append({
-                    "bin_center": float((bins[b-1] + bins[b]) / 2),
-                    "mean_fire_prob": float(proba[mask].mean()),
-                    "n": int(mask.sum()),
-                })
+        for v in grid:
+            Xv = X.copy()
+            Xv[feat] = v
+            curve.append({
+                "bin_center": float(v),
+                "mean_fire_prob": float(model.predict(Xv).mean()),
+                "n": int(len(Xv)),
+            })
         pdp[feat] = curve
 
-    # --- Pairwise interaction strength via SHAP interaction values (top 4 feats) ---
-    top_idx = [FEATURES.index(f) for f in top_drivers if f in FEATURES]
+    top_idx = [FEATURES.index(f) for f in importance.index[:6]]
     small = X.sample(min(2000, len(X)), random_state=42)
     inter = explainer.shap_interaction_values(small)
     inter_arr = inter[1] if isinstance(inter, list) else inter
@@ -75,8 +76,10 @@ def compute_interactions() -> dict:
     out = {
         "partial_dependence": pdp,
         "top_interactions": pairs[:6],
-        "note": "PDP shows how fire probability responds to each driver; "
-                "interactions reveal compound dryness effects.",
+        "top_drivers_by_shap": top_drivers,
+        "note": "Partial dependence on a random sample of cell-months: mean predicted monthly "
+                "fire probability with one driver fixed at each value. Interaction strength is "
+                "mean absolute SHAP interaction value, in log-odds units.",
     }
     OUT_TABLES.mkdir(parents=True, exist_ok=True)
     (OUT_TABLES / "shap_interactions.json").write_text(

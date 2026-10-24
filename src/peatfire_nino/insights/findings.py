@@ -17,6 +17,38 @@ def _load_json(p: Path) -> dict | None:
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
 
 
+def _honesty_notes(model_metrics, spatial_cv, moran, enso) -> list[str]:
+    """Limitations written from the numbers, so they cannot drift from them."""
+    notes = [
+        "Fire labels are MODIS active fire pixels (FIRMS in Earth Engine, 1 km, confidence >= 30). "
+        "Small and short fires below MODIS detection are missed.",
+        "Peat extent is PEATGRIDS thickness >= 50 cm at 1 km, a modelled map rather than a survey.",
+        "Surface state (NDWI, LST, soil moisture) enters from the previous month, because the "
+        "same month's values are altered by the fire itself.",
+        "Smoke direction is a fire-weighted ERA5-Land wind proxy, not a dispersion model.",
+        "Carbon is an order-of-magnitude range for burned peat only; fuel and emission factors "
+        "come from literature ranges.",
+    ]
+    folds = (model_metrics or {}).get("folds") or []
+    aucs = [f.get("roc_auc") for f in folds if f.get("roc_auc") == f.get("roc_auc")]
+    if aucs:
+        notes.append(f"Leave-one-year-out ROC-AUC ranges {min(aucs):.2f} to {max(aucs):.2f}; each "
+                     "fold trains on the other two seasons, including later ones, so this is not a forecast test.")
+    sfolds = (spatial_cv or {}).get("folds") or []
+    if sfolds:
+        worst = min(sfolds, key=lambda f: f["roc_auc"])
+        notes.append(f"Leave-one-district-out mean ROC-AUC {spatial_cv.get('mean_roc_auc')}; the weakest "
+                     f"district is {worst['held_out_district']} at {worst['roc_auc']}.")
+    if moran and moran.get("morans_I") is not None:
+        notes.append(f"Residual Moran's I = {moran.get('morans_I')} (p = {moran.get('p_value')}): spatial "
+                     "structure the predictors do not capture remains.")
+    if enso:
+        notes.append(f"ENSO: Pearson r = {enso.get('pearson_r')} over {enso.get('n_months')} months from "
+                     f"{enso.get('n_seasons')} seasons; season-block permutation p = "
+                     f"{enso.get('season_permutation_p')}. Three seasons cannot establish ENSO as the cause.")
+    return notes
+
+
 def build_findings() -> dict:
     model_metrics = _load_json(OUT_TABLES / "model_metrics.json")
     shap = _load_json(OUT_TABLES / "shap_attribution.json")
@@ -63,19 +95,7 @@ def build_findings() -> dict:
         "smoke_exposure": smoke,
         "carbon_emissions": carbon,
         "residual_spatial_autocorrelation": moran,
-        "honesty_notes": [
-            "Peat extent is an elevation-based proxy, not the licensed national map; "
-            "SHAP ranks it last and residual Moran's I is high, confirming this limitation.",
-            "Model skill is MODERATE (temporal ROC-AUC ~0.62-0.74, spatial mean ~0.71); "
-            "this is not a high-accuracy operational forecaster.",
-            "Pelalawan spatial fold (ROC-AUC ~0.51) suggests anthropogenic ignition not "
-            "captured by climate-driven predictors.",
-            "Smoke export is an ERA5 wind proxy, not a physical dispersion model.",
-            "Carbon emission is an order-of-magnitude RANGE; fuel/EF NEEDS VERIFICATION.",
-            "ONI values used for ENSO linkage NEEDS VERIFICATION against NOAA CPC.",
-            "Residual Moran's I significant: a spatial covariate (true peat depth, water "
-            "table) is still missing.",
-        ],
+        "honesty_notes": _honesty_notes(model_metrics, spatial_cv, moran, enso),
     }
     OUT_INSIGHTS.mkdir(parents=True, exist_ok=True)
     (OUT_INSIGHTS / "findings.json").write_text(

@@ -1,5 +1,5 @@
 """analyze_hotspots.py
-Stage: emerging hotspot analysis on the FRP space-time cube.
+Stage: emerging hotspot analysis on the fire-pixel space-time cube.
 """
 from __future__ import annotations
 

@@ -1,21 +1,23 @@
 district,category,n_cells
-Banyu Asin,intensifying,40
-Banyu Asin,no_pattern,1357
-Banyu Asin,sporadic,39
-Kotawaringin Timur,intensifying,81
-Kotawaringin Timur,new,16
-Kotawaringin Timur,no_pattern,1645
-Kotawaringin Timur,sporadic,132
-Ogan Komering Ilir,diminishing,3
-Ogan Komering Ilir,intensifying,45
-Ogan Komering Ilir,new,25
-Ogan Komering Ilir,no_pattern,1928
-Ogan Komering Ilir,sporadic,172
-Pelalawan,diminishing,2
-Pelalawan,intensifying,72
-Pelalawan,new,37
-Pelalawan,no_pattern,1417
-Pelalawan,sporadic,101
-Pulang Pisau,intensifying,1
-Pulang Pisau,no_pattern,1182
-Pulang Pisau,sporadic,19
+Banyu Asin,intensifying,53
+Banyu Asin,no_pattern,1258
+Banyu Asin,sporadic,89
+Kotawaringin Timur,diminishing,8
+Kotawaringin Timur,intensifying,140
+Kotawaringin Timur,new,15
+Kotawaringin Timur,no_pattern,1434
+Kotawaringin Timur,sporadic,277
+Ogan Komering Ilir,diminishing,11
+Ogan Komering Ilir,intensifying,28
+Ogan Komering Ilir,new,11
+Ogan Komering Ilir,no_pattern,1369
+Ogan Komering Ilir,sporadic,716
+Pelalawan,diminishing,27
+Pelalawan,intensifying,76
+Pelalawan,new,14
+Pelalawan,no_pattern,1231
+Pelalawan,sporadic,281
+Pulang Pisau,diminishing,2
+Pulang Pisau,intensifying,2
+Pulang Pisau,no_pattern,1011
+Pulang Pisau,sporadic,187

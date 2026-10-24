@@ -1,29 +1,31 @@
 # How to Read the Metrics
 
 ## Fire susceptibility
-Unit: probability from 0 to 1. Higher means more likely to burn.
-Bands: below 0.2 low, 0.2 to 0.5 moderate, above 0.5 high.
-Example: a cell at 0.74 sits in the top risk band and warrants monitoring.
+Modelled probability that a 3 km cell has at least one MODIS fire pixel in a given month. The model is not reweighted, so values sit near the observed rate: 4.5 percent of cell-months overall and 12.1 percent of peat cell-months in 2023. A cell at 0.25 is several times more likely to burn that month than the average cell.
 
-## NDWI, Normalized Difference Water Index
-Unit: index from minus 1 to plus 1. Lower values mean drier vegetation.
-Example: a sustained drop in NDWI signals fire prone conditions.
+## VPD, vapour pressure deficit
+kPa. Higher means drier air. In this study modelled probability rises clearly above about 0.65 kPa.
 
-## VPD, Vapour Pressure Deficit
-Unit: kilopascal. Higher means thirstier, drier air.
-Threshold: fire probability rises sharply above roughly 0.65 kPa in this study.
+## Peat thickness
+cm, from PEATGRIDS. A cell counts as peat when at least half of it has peat at least 50 cm thick.
+
+## Precipitation
+mm per day, the monthly mean of ERA5-Land daily totals.
 
 ## Soil moisture
-Unit: volumetric fraction. Lower means drier peat and higher fire risk.
+m3/m3, SMAP L4 surface layer, taken from the previous month.
+
+## SHAP values
+Log-odds contribution of a predictor to one prediction. Mean absolute SHAP ranks predictors by how much they move predictions on average.
 
 ## ROC-AUC
-Unit: 0.5 to 1. Measures how well the model ranks fire cells above non fire cells.
-Interpretation: 0.5 is random, 0.7 is useful, above 0.8 is strong. Our temporal AUC ranges 0.62 to 0.74 and spatial mean is 0.708.
+Probability that a random fire cell-month is ranked above a random non-fire one. 0.5 is chance. Here 0.61 to 0.75 across years and 0.768 on average across districts.
 
-## Oceanic Nino Index, ONI
-Unit: temperature anomaly in degrees Celsius. Positive values indicate El Nino.
-Example: ONI of 1.8 in late 2023 marks a strong El Nino, coinciding with peak fire.
+## PR-AUC
+Average precision. Compare it with the prevalence of the test fold, not with 0.5: 0.191 against a prevalence of 0.100 in 2023 means the model roughly doubles precision over random ranking.
+
+## ONI
+Oceanic Nino Index in degrees C, computed from OISST. Above 0.5 is El Nino. It peaked near 1.8 in late 2023.
 
 ## Moran's I on residuals
-Unit: minus 1 to plus 1. Near zero means model errors are spatially random, which is good.
-Our value of 0.5453 indicates leftover spatial structure, pointing to a missing peat depth or water table layer.
+Near zero means model errors are spatially random. 0.37 here means neighbouring cells share errors, so a spatial predictor is missing.

@@ -8,58 +8,87 @@
       "low": 1550.0,
       "high": 1700.0
     },
-    "status": "NEEDS VERIFICATION - confirm against GFED4s/IPCC before publishing"
+    "applies_to": "burned area on PEATGRIDS peat (thickness >= 50 cm) only"
   },
-  "total_burned_ha": 302016.1,
+  "years": [
+    2023,
+    2024,
+    2025
+  ],
+  "total_burned_ha": 306412.1,
+  "total_burned_peat_ha": 285986.3,
+  "total_burned_nonpeat_ha": 20425.8,
   "co2_estimate_range_Mt": {
-    "low": 70.2,
-    "high": 154.0
+    "low": 66.5,
+    "high": 145.9
   },
   "by_year": [
     {
       "year": 2023,
       "burned_ha": 294255.2,
-      "co2_low_t": 68414334.0,
-      "co2_high_t": 150070152.0
+      "burned_peat_ha": 275664.4,
+      "burned_nonpeat_ha": 18590.8,
+      "co2_low_t": 64091973.0,
+      "co2_high_t": 140588844.0
     },
     {
       "year": 2024,
       "burned_ha": 7760.9,
-      "co2_low_t": 1804409.2,
-      "co2_high_t": 3958059.0
+      "burned_peat_ha": 6794.7,
+      "burned_nonpeat_ha": 966.2,
+      "co2_low_t": 1579767.8,
+      "co2_high_t": 3465297.0
+    },
+    {
+      "year": 2025,
+      "burned_ha": 4396.0,
+      "burned_peat_ha": 3527.2,
+      "burned_nonpeat_ha": 868.8,
+      "co2_low_t": 820074.0,
+      "co2_high_t": 1798872.0
     }
   ],
   "by_district": [
     {
       "district": "Ogan Komering Ilir",
-      "burned_ha": 180117.2,
-      "co2_low_t": 41877249.0,
-      "co2_high_t": 91859772.0
+      "burned_ha": 181034.8,
+      "burned_peat_ha": 163710.3,
+      "burned_nonpeat_ha": 17324.5,
+      "co2_low_t": 38062644.8,
+      "co2_high_t": 83492253.0
     },
     {
       "district": "Pulang Pisau",
-      "burned_ha": 78391.8,
-      "co2_low_t": 18226093.5,
-      "co2_high_t": 39979818.0
+      "burned_ha": 78639.8,
+      "burned_peat_ha": 78565.4,
+      "burned_nonpeat_ha": 74.4,
+      "co2_low_t": 18266455.5,
+      "co2_high_t": 40068354.0
     },
     {
       "district": "Kotawaringin Timur",
-      "burned_ha": 29657.6,
-      "co2_low_t": 6895392.0,
-      "co2_high_t": 15125376.0
+      "burned_ha": 29707.2,
+      "burned_peat_ha": 28633.4,
+      "burned_nonpeat_ha": 1073.8,
+      "co2_low_t": 6657265.5,
+      "co2_high_t": 14603034.0
     },
     {
       "district": "Banyu Asin",
-      "burned_ha": 8833.4,
-      "co2_low_t": 2053765.5,
-      "co2_high_t": 4505034.0
+      "burned_ha": 9012.7,
+      "burned_peat_ha": 8052.9,
+      "burned_nonpeat_ha": 959.8,
+      "co2_low_t": 1872299.2,
+      "co2_high_t": 4106979.0
     },
     {
       "district": "Pelalawan",
-      "burned_ha": 5016.1,
-      "co2_low_t": 1166243.2,
-      "co2_high_t": 2558211.0
+      "burned_ha": 8017.6,
+      "burned_peat_ha": 7024.3,
+      "burned_nonpeat_ha": 993.3,
+      "co2_low_t": 1633149.8,
+      "co2_high_t": 3582393.0
     }
   ],
-  "note": "Indicative ORDER-OF-MAGNITUDE range from MCD64A1 burned area x literature fuel/EF intervals. NOT a substitute for GFED4s. Burned area is itself a 500 m product that may over-count. Report as a range, never a single figure."
+  "note": "Order-of-magnitude range from MCD64A1 burned area on peat times literature fuel and emission-factor intervals. Not a substitute for GFED. MCD64A1 misses small and smouldering fires, so burned area and emissions are both likely underestimates."
 }

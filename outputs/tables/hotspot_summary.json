@@ -1,10 +1,10 @@
 {
   "category_counts": {
-    "no_pattern": 7529,
-    "sporadic": 463,
-    "intensifying": 239,
-    "new": 78,
-    "diminishing": 5
+    "no_pattern": 6303,
+    "sporadic": 1550,
+    "intensifying": 299,
+    "diminishing": 48,
+    "new": 40
   },
   "n_bins": 18,
   "bins": [

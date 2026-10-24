@@ -25,7 +25,7 @@ def _shap_global() -> None:
     s = pd.read_csv(p, index_col=0).iloc[:, 0].sort_values()
     fig, ax = plt.subplots(figsize=(8.5, 5.5))
     bars = ax.barh([pretty(i) for i in s.index], s.values, color="#B30000")
-    ax.set_xlabel("Mean |SHAP| (impact on fire probability)")
+    ax.set_xlabel("Mean |SHAP|, log-odds of monthly fire")
     ax.set_title("Global Driver Importance", fontweight="bold", loc="left", fontsize=13)
     vmax = float(s.values.max())
     ax.set_xlim(0, vmax * 1.15)
@@ -55,7 +55,7 @@ def _shap_heatmap() -> None:
             ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=7,
                     color="white" if v > vmax * 0.55 else "#222")
     ax.set_title("Driver Importance by District (mean |SHAP|)", fontweight="bold", loc="left", fontsize=13)
-    fig.colorbar(im, ax=ax, label="mean |SHAP|", fraction=0.046, pad=0.02)
+    fig.colorbar(im, ax=ax, label="mean |SHAP|, log-odds", fraction=0.046, pad=0.02)
     fig.tight_layout(rect=[0, 0.04, 1, 1]); _foot(fig)
     fig.savefig(OUT_FIGURES / "chart_shap_by_district.png", dpi=DPI); plt.close(fig)
 
@@ -84,7 +84,7 @@ def _year_comparison() -> None:
         return
     s = pd.read_parquet(sp); peat = s[s["peat_likely"] == 1]
     rate = peat.groupby("year")["fire"].mean()
-    ep = DATA_RAW / "gfed_emissions_summary.csv"; burned = None
+    ep = DATA_RAW / "burned_area_mcd64a1.csv"; burned = None
     if ep.exists():
         e = pd.read_csv(ep)
         if not e.empty:
@@ -94,7 +94,7 @@ def _year_comparison() -> None:
     ax1.bar(years, [rate.get(y, 0) for y in STUDY_YEARS], color="#D7301F", alpha=0.85,
             label="Fire rate (peat cells)")
     ax1.set_ylabel("Fire-positive cell rate", color="#D7301F"); ax1.set_xlabel("Year")
-    ax1.set_title("El Nino Signal: Fire Rate and Burned Area by Year",
+    ax1.set_title("Fire Rate on Peat and Burned Area by Year",
                   fontweight="bold", loc="left", fontsize=13)
     if burned is not None:
         ax2 = ax1.twinx()
@@ -134,8 +134,8 @@ def _interactions() -> None:
     fig, ax = plt.subplots(figsize=(9.5, 5))
     vv = vals[::-1]
     bars = ax.barh(labels[::-1], vv, color="#6A1B9A")
-    ax.set_xlabel("Mean |SHAP interaction| (compound effect strength)")
-    ax.set_title("Strongest Driver Interactions (Compound Dryness)", fontweight="bold", loc="left", fontsize=13)
+    ax.set_xlabel("Mean |SHAP interaction value| (log-odds)")
+    ax.set_title("Strongest Driver Interactions", fontweight="bold", loc="left", fontsize=13)
     vmax = max(vv)
     ax.set_xlim(0, vmax * 1.18)
     for b, v in zip(bars, vv):
@@ -159,9 +159,9 @@ def _pdp() -> None:
     for ax, f in zip(axes, feats):
         xs = [c["bin_center"] for c in pdp[f]]; ys = [c["mean_fire_prob"] for c in pdp[f]]
         ax.plot(xs, ys, "o-", color="#B30000", lw=2)
-        ax.set_xlabel(pretty(f)); ax.set_ylabel("Mean fire probability")
+        ax.set_xlabel(pretty(f)); ax.set_ylabel("Mean predicted monthly fire probability")
         ax.set_title(pretty(f), fontsize=11, fontweight="bold"); ax.grid(alpha=0.3)
-    fig.suptitle("How Fire Probability Responds to Dryness Drivers", fontweight="bold", fontsize=13)
+    fig.suptitle("Partial Dependence on the Four Strongest Drivers", fontweight="bold", fontsize=13)
     fig.tight_layout(rect=[0, 0.05, 1, 0.96]); _foot(fig)
     fig.savefig(OUT_FIGURES / "chart_partial_dependence.png", dpi=DPI); plt.close(fig)
 
@@ -201,9 +201,10 @@ def _carbon() -> None:
 
     years = [str(r["year"]) for r in byy]
     ha = [r.get("burned_ha", 0) for r in byy]
-    if "2025" not in years:
-        years.append("2025"); ha.append(0)
-    bars = ax2.bar(years, ha, color="#D2691E", alpha=0.85, width=0.6)
+    ha_peat = [r.get("burned_peat_ha", 0) for r in byy]
+    bars = ax2.bar(years, ha, color="#E8B48A", alpha=0.9, width=0.6, label="All burned area")
+    ax2.bar(years, ha_peat, color="#8B4513", alpha=0.9, width=0.6, label="On peat (PEATGRIDS)")
+    ax2.legend(fontsize=8, loc="upper right")
     ax2.set_ylabel("Burned area (hectares, MODIS MCD64A1)", fontsize=10)
     ax2.set_xlabel("Year", fontsize=10)
     ax2.set_title("Burned Area by Year", fontweight="bold", loc="left", fontsize=13, pad=10)
@@ -213,14 +214,22 @@ def _carbon() -> None:
                  f"{v:,.0f} ha", ha="center", va="bottom", fontsize=9, fontweight="bold")
     ax2.grid(axis="y", alpha=0.25); ax2.set_axisbelow(True)
 
+    yrs = d.get("years") or [int(y) for y in years]
+    span = f"{min(yrs)} to {max(yrs)}" if yrs else ""
+    total_ha = sum(r.get("burned_ha", 0) for r in byd) or 1.0
+    top = max(byd, key=lambda r: r.get("burned_ha", 0))
+    top_share = 100.0 * top.get("burned_ha", 0) / total_ha
+    top_year = max(byy, key=lambda r: r.get("burned_ha", 0)) if byy else None
     fig.text(0.5, 0.95,
-             f"Indicative Peat Fire Carbon Emissions: {rng.get('low','?')} to {rng.get('high','?')} Mt CO2, 2023 to 2025",
+             f"Indicative CO2 from Burned Peat: {rng.get('low','?')} to {rng.get('high','?')} Mt, {span}",
              ha="center", fontweight="bold", fontsize=14)
     fig.text(0.5, 0.895,
-             "The 2023 El Nino year dominates; Ogan Komering Ilir alone accounts for about 60 percent of the burned area",
+             (f"{top_year['year']} holds the most burned area; " if top_year else "")
+             + f"{top['district']} accounts for {top_share:.0f} percent of all burned area",
              ha="center", fontsize=9.5, color="#555")
     fig.text(0.01, 0.02,
-             "Order of magnitude estimate from MODIS burned area and literature emission factors. Factors require verification.",
+             "Peat fuel applied to burned area on peat only. Order of magnitude from MODIS MCD64A1 and "
+             "literature fuel and emission-factor ranges.",
              fontsize=7.5, color="#888", style="italic")
     fig.savefig(OUT_FIGURES / "chart_carbon_emissions.png", dpi=DPI, bbox_inches="tight")
     plt.close(fig)

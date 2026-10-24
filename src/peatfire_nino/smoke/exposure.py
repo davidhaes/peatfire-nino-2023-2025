@@ -10,7 +10,7 @@ import pandas as pd
 from peatfire_nino.config import (DRY_SEASON_MONTHS, GEE_ASSETS,
                                   HIGH_ACTIVITY_QUANTILE, STUDY_YEARS)
 from peatfire_nino.data.aoi import load_districts
-from peatfire_nino.data.firms import fetch_firms
+from peatfire_nino.data.firms import fetch_firms_daily, month_window
 from peatfire_nino.io.gee_session import init_earth_engine
 from peatfire_nino.io.logging_utils import log_step
 from peatfire_nino.io.paths import DATA_PROCESSED, OUT_TABLES
@@ -18,8 +18,10 @@ from peatfire_nino.io.paths import DATA_PROCESSED, OUT_TABLES
 
 def _daily_winds_for_district(geom: ee.Geometry, year: int) -> pd.DataFrame:
     """Daily mean u10/v10 over a district for the dry season."""
+    start, _ = month_window(year, DRY_SEASON_MONTHS[0])
+    _, end = month_window(year, DRY_SEASON_MONTHS[-1])
     coll = (ee.ImageCollection(GEE_ASSETS["era5_land_daily"])
-            .filterDate(f"{year}-06-01", f"{year}-11-30")
+            .filterDate(start, end)
             .select(["u_component_of_wind_10m", "v_component_of_wind_10m"]))
 
     def reduce_day(im):
@@ -45,7 +47,15 @@ def _bearing(u: float, v: float) -> float:
 
 
 def export_bearing_per_district() -> dict:
-    """Compute FRP-weighted export bearing per district on high-activity days."""
+    """Fire-weighted wind bearing per district on high-activity days.
+
+    High-activity days are the days in the top decile of daily MODIS fire
+    pixels in the district, among days with any fire. Winds on those days
+    are averaged with the day's fire-pixel count as the weight. The earlier
+    version dated every fire record to the 15th of its month, so "high
+    activity days" were at most six dates a year and the bearing rested on
+    one or two days of wind.
+    """
     init_earth_engine()
     aoi = load_districts()
     results = []
@@ -56,20 +66,18 @@ def export_bearing_per_district() -> dict:
         cent = row.geometry.centroid
         for year in STUDY_YEARS:
             winds = _daily_winds_for_district(geom, year)
-            fires = fetch_firms(year)
-            fires = fires[fires["district"] == row["district"]].copy()
-            fires["acq_date"] = pd.to_datetime(fires["acq_date"], errors="coerce")
-            daily_frp = fires.groupby(fires["acq_date"].dt.date)["frp"].sum()
-            if daily_frp.empty:
+            daily = fetch_firms_daily(year)
+            daily = daily[(daily["district"] == row["district"]) & (daily["n_fire_px"] > 0)]
+            if daily.empty:
                 continue
-            thresh = daily_frp.quantile(HIGH_ACTIVITY_QUANTILE)
-            high_days = set(daily_frp[daily_frp >= thresh].index)
+            counts = daily.set_index(daily["date"].dt.date)["n_fire_px"]
+            thresh = counts.quantile(HIGH_ACTIVITY_QUANTILE)
+            high_days = set(counts[counts >= thresh].index)
 
             w = winds[winds["date"].dt.date.isin(high_days)]
             if w.empty:
                 continue
-            # FRP-weight each high day
-            weights = np.array([daily_frp.get(d.date(), 0.0) for d in w["date"]])
+            weights = np.array([counts.get(d.date(), 0.0) for d in w["date"]])
             u_w = np.average(w["u10"], weights=weights)
             v_w = np.average(w["v10"], weights=weights)
             bearing = _bearing(u_w, v_w)
@@ -80,7 +88,8 @@ def export_bearing_per_district() -> dict:
                 "export_bearing_deg": round(bearing, 1),
                 "mean_wind_ms": round(speed, 2),
                 "n_high_days": len(high_days),
-                "frp_on_high_days": round(float(daily_frp[daily_frp >= thresh].sum()), 1),
+                "fire_pixels_on_high_days": round(float(counts[counts >= thresh].sum()), 1),
+                "fire_pixels_season": round(float(counts.sum()), 1),
             })
             # 24h straight-line forward trajectory proxy from centroid
             dist_km = speed * 3600 * 24 / 1000.0
@@ -98,12 +107,14 @@ def export_bearing_per_district() -> dict:
     traj_df = pd.DataFrame(trajectories)
     traj_df.to_parquet(DATA_PROCESSED / "smoke_trajectories.parquet", index=False)
 
-    # transboundary flag: bearings 270-360 (toward Malacca/NW) for Sumatra districts
-    nw = res_df[(res_df["export_bearing_deg"] >= 270) | (res_df["export_bearing_deg"] <= 30)]
+    # Bearings between west and north (270-360 degrees): toward the Malacca
+    # Strait and Peninsular Malaysia from Sumatra, toward Sarawak from Kalimantan.
+    nw = res_df[res_df["export_bearing_deg"] >= 270] if len(res_df) else res_df
     out = {
         "records": results,
         "n_transboundary_oriented": int(len(nw)),
-        "note": "Proxy only: straight-line ERA5 wind transport, not physical dispersion.",
+        "note": "Proxy only: fire-weighted 10 m ERA5-Land wind on high-activity days, straight-line "
+                "transport, not physical dispersion.",
     }
     (OUT_TABLES / "smoke_summary.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     log_step(f"smoke export computed for {len(results)} district-years", "OK")

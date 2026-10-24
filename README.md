@@ -1,118 +1,139 @@
-# Peatland Fire Susceptibility, Drivers, and Smoke Exposure under the 2023 to 2025 El Nino
+# Peatland Fire Susceptibility, Drivers and Smoke Direction, 2023 to 2025
 
-A reproducible geospatial analysis of why Indonesian peatlands burned during the 2023 El Nino, which conditions drive that fire, and where the smoke travels. Built entirely from open data across five high risk districts in Sumatra and Kalimantan.
+A reproducible geospatial study of peatland fire in five Indonesian districts across the 2023 El Nino season and the two seasons after it. It asks which conditions explain where and when peat burns, where fire clusters are emerging, how much the 2023 season differed from the later ones, and in which direction smoke travelled on the worst days. All inputs are open data read through Google Earth Engine.
 
-## What this project is
-
-This is a screening and attribution study, not an operational fire spread forecaster. It answers four questions: which environmental conditions most strongly explain peatland fire, where the emerging fire hotspots are across 2023 to 2025, whether the El Nino peak genuinely raised fire risk, and in which direction the smoke travels on the worst days. All data are open access and the pipeline runs locally from a single command.
+This is a screening and attribution study. It is not an operational fire forecast and not a smoke dispersion model.
 
 ## Headline results
 
 | Result | Value |
 |---|---|
-| Strongest fire driver | NDWI, vegetation dryness |
-| Strongest driver interaction | VPD and Soil Moisture, strength 0.087 |
-| El Nino linkage, fire count vs ONI | Pearson r = 0.684, p = 0.0018 |
-| Temporal validation AUC | 0.62 in 2023, 0.74 in 2024, 0.66 in 2025 |
-| Spatial cross validation AUC, mean | 0.708 |
-| Highest risk district | Ogan Komering Ilir, mean susceptibility 0.16 |
-| Fire detections by year | 690 in 2023, 265 in 2024, 148 in 2025 |
-| Estimated CO2 emissions | 70 to 154 million tonnes, indicative range |
+| Fire-positive cell-months (MODIS, 3 km cells, June to November) | 6,432 of 142,146 (4.5%) |
+| Share of peat cell-months with fire | 0.121 in 2023, 0.023 in 2024, 0.008 in 2025 |
+| Strongest drivers, mean absolute SHAP | VPD, peat thickness, previous-month soil moisture |
+| Leave-one-year-out ROC-AUC | 0.75 (2023), 0.75 (2024), 0.61 (2025) |
+| Leave-one-district-out ROC-AUC, mean | 0.768, weakest Pelalawan at 0.55 |
+| Monthly fire pixels against ONI | r = 0.656 over 18 months, season-block permutation p = 0.167 |
+| Emerging hotspot classes | 299 intensifying, 40 new, 48 diminishing cells |
+| Burned area, MODIS MCD64A1 | 306,412 ha, of which 285,986 ha on peat |
+| Indicative CO2 from burned peat | 66.5 to 145.9 Mt |
+| Smoke direction proxy | 14 of 15 district-seasons carry smoke between west and north |
+| Residual Moran's I | 0.370 (p = 0.001) |
+
+Every number above is read from `outputs/insights/findings.json`, which the pipeline writes. `docs/conclusions.md` is generated from the same file.
 
 ## Study area
 
-Five peat dominated districts selected for fire history and contrast across two peat macro regions: Ogan Komering Ilir and Banyuasin in South Sumatra, Pulang Pisau and Kotawaringin Timur in Central Kalimantan, and Pelalawan in Riau.
+Five peat districts in two regions: Ogan Komering Ilir and Banyuasin in South Sumatra, Pulang Pisau and Kotawaringin Timur in Central Kalimantan, and Pelalawan in Riau. The analysis grid has 8,240 cells of 3 km; 7,897 have complete predictors and enter the model.
 
-![Study area and active fire detections](outputs/figures/01_overview.png)
-
-This map shows every VIIRS active fire detection across the 2023 to 2025 dry seasons. Fire concentrates heavily in the South Sumatra and Central Kalimantan peatlands, with Ogan Komering Ilir and Pulang Pisau carrying the densest clusters.
+![Study area and active fire](outputs/figures/01_overview.png)
 
 ## Where peat is most prone to burn
 
 ![Fire susceptibility 2023](outputs/figures/02_susceptibility.png)
 
-Modelled fire probability on peat likely cells at the 2023 El Nino peak. Darker red marks higher risk. Ogan Komering Ilir, with a mean susceptibility of 0.16, is the highest risk district, followed by Kotawaringin Timur at 0.11.
+Modelled monthly fire probability, averaged over the 2023 dry season, on cells that are at least half peat in PEATGRIDS. Ogan Komering Ilir has the highest mean probability (0.081, observed rate 0.083), followed by Kotawaringin Timur (0.050) and Pulang Pisau (0.044). The model is trained without class reweighting, so its probabilities sit on the scale of the observed fire rate.
 
 ![Susceptibility by district and year](outputs/figures/06_yearly_panels.png)
 
-Districts are arranged as rows and years as columns. Mean susceptibility on peat cells falls from 0.20 in 2023 to 0.10 in 2024 and 0.05 in 2025, visible here as fading intensity from left to right. This is the clearest visual evidence of the El Nino effect.
+![2023 minus 2024](outputs/figures/05_year_delta.png)
 
-## Emerging hotspots and where to act
-
-![Priority emerging hotspots](outputs/figures/03_priority_hotspots.png)
-
-Getis-Ord Gi star clustering combined with a Mann-Kendall trend test classifies each cell. The analysis flags 239 intensifying cells, shown in blue, where fire activity is trending upward, and 78 new cells, shown in red, that became active in the later period. These are the locations that warrant priority monitoring.
-
-## How smoke travels
-
-![Smoke export direction](outputs/figures/04_smoke_export.png)
-
-On high fire activity days, fire radiative power weighted winds carry smoke toward the northwest and the Malacca Strait corridor, the transboundary haze direction that affects neighbouring countries. The arrows indicate dominant export bearing per district. This is a wind based proxy for direction, not a full atmospheric dispersion model.
-
-![El Nino signal 2023 vs 2024](outputs/figures/05_year_delta.png)
-
-This map isolates the El Nino signal by subtracting 2024 susceptibility from 2023. Red cells are where the 2023 El Nino raised modelled fire risk relative to the following year, concentrated in the South Sumatra and Central Kalimantan peat cores.
+The 2023 season stands far above 2024 and 2025 in every district. The difference map subtracts the 2024 dry-season mean from 2023.
 
 ## What drives the fire
 
 ![Global driver importance](outputs/figures/chart_shap_global.png)
 
-SHAP analysis ranks the predictors by their average impact on fire probability. NDWI, elevation, VPD, tree cover, and soil moisture lead. The key message is that dynamic dryness indicators, which change month to month, outrank static landscape attributes.
-
-![Driver interactions](outputs/figures/chart_interactions.png)
-
-This chart shows how pairs of drivers act together. The interaction between VPD and soil moisture is the strongest at 0.087, nearly double the next pair. When dry air meets dry soil, fire risk escalates beyond what either factor alone would suggest.
+Vapour pressure deficit is the strongest driver by a wide margin, followed by peat thickness, soil moisture in the previous month and rainfall in the previous month. Surface state (NDWI, land surface temperature, soil moisture) enters from the previous month only, because the same month's values are altered by the fire itself.
 
 ![Partial dependence](outputs/figures/chart_partial_dependence.png)
 
-These curves show how fire probability responds as each dryness driver changes. For VPD, probability holds near 0.07 up to about 0.65 kPa, then climbs steeply, reaching roughly 0.36 at the highest values. This confirms a nonlinear dryness response rather than a gradual one.
+Partial dependence on a random sample of cell-months: probability stays near 0.03 to 0.04 while VPD is below about 0.65 kPa and roughly doubles above 0.85 kPa. It rises with peat thickness up to about 2 m and falls as the previous month becomes wetter.
+
+![Driver interactions](outputs/figures/chart_interactions.png)
+
+The strongest pairwise interaction is VPD with peat thickness (mean absolute SHAP interaction 0.049, log-odds): dry air matters most where peat is deep.
 
 ![Driver importance by district](outputs/figures/chart_shap_by_district.png)
 
-This heatmap breaks driver importance down by district, with the SHAP value printed in each cell. NDWI is the leading driver in four of the five districts, while Kotawaringin Timur is instead led by elevation, an early sign that drivers are not identical everywhere.
+VPD leads in four districts. In Pelalawan peat thickness leads, and Pelalawan is also where the model transfers worst (ROC-AUC 0.55 when the district is held out), which is consistent with ignition there depending on land management that the predictors do not describe.
 
-![Fire rate and burned area by year](outputs/figures/chart_year_comparison.png)
+## Emerging hotspots
 
-This chart pairs the modelled fire rate on peat cells, shown as bars, with the MODIS burned area, shown as the line, across the three study years. The fire rate falls from 0.016 in 2023 to 0.005 in 2024 and 0.002 in 2025, quantifying how far the El Nino peak exceeded later years.
+![Priority emerging hotspots](outputs/figures/03_priority_hotspots.png)
+
+Getis-Ord Gi* is computed per monthly bin (18 bins, June to November of each season) and a Mann-Kendall test classifies the trend of each cell. Intensifying cells cluster in northern Kotawaringin Timur and in Pelalawan, where fire continued in 2024 and 2025, while the large 2023 peat fires of Ogan Komering Ilir and Pulang Pisau did not recur.
 
 ![Temporal evolution of hot clusters](outputs/figures/chart_spacetime_hotshare.png)
 
-This time series tracks the share of cells classified as significant hot clusters in each monthly bin. The 2023 dry season months stand far above 2024 and 2025, showing when fire clustering was most intense.
+## El Nino
+
+![Fire rate and burned area by year](outputs/figures/chart_year_comparison.png)
+
+The Oceanic Nino Index is computed from NOAA OISST v2.1 (Nino 3.4, 1991 to 2020 base). Monthly fire pixels correlate with ONI at r = 0.656 over 18 months. Those months come from only three seasons, so the fair test permutes whole seasons, and it gives p = 0.167; with three seasons it cannot fall below 1/6. The data are consistent with an El Nino effect, but three seasons cannot establish it.
+
+## Smoke direction
+
+![Smoke export direction](outputs/figures/04_smoke_export.png)
+
+On high-activity days, fire-weighted ERA5-Land winds at 10 m point between west and north in 14 of 15 district-seasons. This is a straight-line wind proxy, not a dispersion model, and it does not say where haze reached the ground.
 
 ![Smoke export bearing windrose](outputs/figures/chart_windrose.png)
 
-This windrose summarises smoke export bearings across all high activity district months. The dominant northwest orientation confirms the transboundary haze pathway seen in the smoke export map.
-
-## Carbon emission context
+## Carbon
 
 ![Carbon emission estimate](outputs/figures/chart_carbon_emissions.png)
 
-Peat fires release carbon that took centuries to accumulate. Using MODIS burned area and literature emission factors, we estimate total emissions of 70 to 154 million tonnes of CO2 across the five districts over 2023 to 2025. The 2023 El Nino year accounts for almost all of it, with 294,255 hectares burned compared with 7,761 hectares in 2024. Ogan Komering Ilir alone contributes about 60 percent of the burned area. This is an order of magnitude estimate; the underlying emission factors require verification before being cited as precise figures.
+MODIS MCD64A1 records 306,412 ha burned over the three seasons, 294,255 ha of it in 2023, and 285,986 ha of the total lies on PEATGRIDS peat. Applying literature ranges for peat fuel consumption (15 to 30 kg per square metre) and the CO2 emission factor (1,550 to 1,700 g per kg) to burned peat only gives 66.5 to 145.9 Mt CO2. Ogan Komering Ilir accounts for 59 percent of burned area. This is an order-of-magnitude range, not an inventory.
 
-## Data sources
+## Interactive map
 
-All open access, processed through Google Earth Engine and downloaded locally with metadata.
+`outputs/interactive/peatfire_explorer.html` opens in any browser without a server. Layers: observed fire per season, modelled susceptibility per season, PEATGRIDS peat, emerging hotspots and the smoke direction proxy.
 
-1. NASA FIRMS VIIRS active fire and FRP
-2. ERA5 Land daily reanalysis for temperature, dewpoint, precipitation, and wind
-3. MODIS MOD09A1 and MOD11A2 for NDWI and land surface temperature
-4. NASA SMAP for surface soil moisture
-5. Hansen Global Forest Change for tree cover and forest loss
-6. MERIT DEM for elevation and slope
-7. MODIS MCD64A1 for burned area context
-8. GADM 4.1 for administrative boundaries
+## Data
 
-## Methodology in brief
+1. MODIS active fire (FIRMS in Earth Engine, collection 6.1, confidence at least 30)
+2. MODIS MCD64A1 burned area
+3. ERA5-Land daily aggregates: temperature, dewpoint, precipitation, 10 m wind
+4. MODIS MOD09A1 (NDWI) and MOD11A2 (land surface temperature)
+5. SMAP L4 surface soil moisture
+6. PEATGRIDS peat thickness (Widyastuti et al. 2025, CC BY 4.0)
+7. Hansen Global Forest Change v1.12, loss up to 2022
+8. MERIT DEM
+9. NOAA OISST v2.1 for ONI
+10. GADM 4.1 district boundaries
 
-A 3 km analysis grid was clipped to the five districts. A monthly feature table of climate, dryness, fuel, terrain, and fire labels was assembled, totalling 143,478 cell months with 1,107 fire positive cases. A LightGBM susceptibility model was trained with temporal hold out and leave one district out spatial cross validation. Drivers were attributed with TreeSHAP including interactions and partial dependence. Emerging hotspots were detected with Getis-Ord Gi star and a Mann-Kendall trend. Fire counts were linked to the Oceanic Nino Index. Full detail is in docs/methodology.md.
+## Method in brief
+
+Monthly features per 3 km cell for June to November 2023 to 2025, with May used only to build lags. A cell-month is labelled fire when it holds at least one MODIS fire pixel. LightGBM is validated leave-one-year-out (each fold trains on the other two seasons, so it is not a forecast test) and leave-one-district-out. Drivers are attributed with TreeSHAP, interactions and partial dependence. Hotspots use Gi* and Mann-Kendall. Full detail is in `docs/methodology.md`.
+
+## Correction, September 2026
+
+An audit found errors in the first version. Every result above comes from the corrected pipeline, and the earlier figures are superseded.
+
+1. Fire labels. The first version described its labels as VIIRS with fire radiative power. They were MODIS pixels, the "FRP" was the 11 micron brightness temperature, and converting pixels to vector centroids merged neighbours, so fire was undercounted about 27 times (1,107 positive cell-months, now 6,432).
+2. Leakage. NDWI, land surface temperature and soil moisture entered from the same month as the fire, after the fire had changed them, and NDWI came out as the top driver. They now enter from the previous month.
+3. Peat. An elevation proxy stood in for peat. PEATGRIDS thickness now defines peat.
+4. El Nino. ONI values were typed in by hand and never verified, and the correlation was tested as if 18 months were independent (reported p = 0.0018). ONI is now computed from OISST and tested by permuting seasons (p = 0.167).
+5. Carbon. Peat fuel consumption was applied to all burned area. It now applies to burned peat only.
+6. Grid. Cells on district borders were duplicated (8,314 cells, now 8,240).
+7. Model. Class reweighting inflated the probabilities, and the partial dependence curves were not true partial dependence. Both are fixed.
 
 ## Limitations
 
-1. Peat extent is an elevation based proxy, not the licensed national peat map. The model ranks this proxy last, and residual spatial autocorrelation, Moran's I = 0.545, confirms a missing peat depth or water table layer.
-2. Model skill is moderate, temporal AUC 0.62 to 0.74 and spatial mean 0.708. This is a screening tool, not a precise forecaster.
-3. Smoke export is a wind based proxy, not a physical dispersion model.
-4. The carbon estimate and the Oceanic Nino Index values require verification before publication.
-5. Pelalawan is nearly unpredictable from climate alone, spatial AUC 0.51, suggesting human driven ignition that this climate based model cannot capture.
+1. MODIS misses small and short fires, and cloud and haze hide some burning.
+2. PEATGRIDS is a modelled 1 km map, not a survey.
+3. Three seasons cannot separate El Nino from other year-to-year differences.
+4. Residual Moran's I of 0.37 shows spatial structure the predictors miss, most likely drainage and water table.
+5. Smoke direction is a wind proxy, and carbon is a literature-factor range.
+
+## Reproduce
+
+```bash
+python run_pipeline.py
+```
+
+Earth Engine access is configured in `credentials/credentials.env` (copy `credentials/credentials.env.example`). That file is git-ignored.
 
 ## License
 

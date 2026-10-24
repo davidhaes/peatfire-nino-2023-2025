@@ -3,41 +3,46 @@
   "folds": [
     {
       "held_out_district": "Banyu Asin",
-      "roc_auc": 0.822,
-      "pr_auc": 0.045,
-      "n_test": 23958,
-      "n_test_fire": 124
+      "roc_auc": 0.83,
+      "pr_auc": 0.137,
+      "n_test": 23310,
+      "n_test_fire": 508,
+      "prevalence": 0.0218
     },
     {
       "held_out_district": "Kotawaringin Timur",
-      "roc_auc": 0.619,
-      "pr_auc": 0.018,
+      "roc_auc": 0.7,
+      "pr_auc": 0.21,
       "n_test": 33408,
-      "n_test_fire": 269
+      "n_test_fire": 1510,
+      "prevalence": 0.0452
     },
     {
       "held_out_district": "Ogan Komering Ilir",
-      "roc_auc": 0.759,
-      "pr_auc": 0.037,
-      "n_test": 37368,
-      "n_test_fire": 394
+      "roc_auc": 0.858,
+      "pr_auc": 0.317,
+      "n_test": 36684,
+      "n_test_fire": 2701,
+      "prevalence": 0.0736
     },
     {
       "held_out_district": "Pelalawan",
-      "roc_auc": 0.511,
-      "pr_auc": 0.008,
+      "roc_auc": 0.55,
+      "pr_auc": 0.038,
       "n_test": 27900,
-      "n_test_fire": 213
+      "n_test_fire": 814,
+      "prevalence": 0.0292
     },
     {
       "held_out_district": "Pulang Pisau",
-      "roc_auc": 0.83,
-      "pr_auc": 0.042,
+      "roc_auc": 0.901,
+      "pr_auc": 0.288,
       "n_test": 20844,
-      "n_test_fire": 107
+      "n_test_fire": 899,
+      "prevalence": 0.0431
     }
   ],
-  "mean_roc_auc": 0.708,
-  "mean_pr_auc": 0.03,
+  "mean_roc_auc": 0.768,
+  "mean_pr_auc": 0.198,
   "interpretation": "If spatial mean ROC-AUC is close to the temporal hold-out AUC, the model captures transferable mechanism rather than location memory. A large drop indicates spatial overfitting."
 }
