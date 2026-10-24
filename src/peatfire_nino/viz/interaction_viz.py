@@ -30,12 +30,12 @@ def render_interaction_figures() -> None:
         for ax, f in zip(axes, feats):
             xs = [c["bin_center"] for c in pdp[f]]
             ys = [c["mean_fire_prob"] for c in pdp[f]]
-            ax.plot(xs, ys, "o-", color="#B30000", lw=2)
+            ax.plot(xs, ys, "o-", color="#b63a1c", lw=2)
             ax.set_xlabel(f)
             ax.set_ylabel("mean fire probability")
             ax.set_title(f"Partial dependence: {f}", fontsize=10)
             ax.grid(alpha=0.3)
-        fig.suptitle("How fire probability responds to dryness drivers",
+        fig.suptitle("How fire probability responds to dryness",
                      fontweight="bold")
         fig.tight_layout()
         fig.savefig(OUT_FIGURES / "chart_partial_dependence.png", dpi=_DPI)
@@ -47,7 +47,7 @@ def render_interaction_figures() -> None:
         labels = [f"{p['feature_a']}\nx {p['feature_b']}" for p in pairs]
         vals = [p["interaction_strength"] for p in pairs]
         fig, ax = plt.subplots(figsize=(7, 4.5))
-        ax.barh(labels[::-1], vals[::-1], color="#7B3294")
+        ax.barh(labels[::-1], vals[::-1], color="#3f6f73")
         ax.set_xlabel("Mean |SHAP interaction|")
         ax.set_title("Strongest driver interactions (compound dryness)",
                      fontweight="bold", loc="left")

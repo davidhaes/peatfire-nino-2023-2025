@@ -24,9 +24,9 @@ def _shap_global() -> None:
         return
     s = pd.read_csv(p, index_col=0).iloc[:, 0].sort_values()
     fig, ax = plt.subplots(figsize=(8.5, 5.5))
-    bars = ax.barh([pretty(i) for i in s.index], s.values, color="#B30000")
+    bars = ax.barh([pretty(i) for i in s.index], s.values, color="#b63a1c")
     ax.set_xlabel("Mean |SHAP|, log-odds of monthly fire")
-    ax.set_title("Global Driver Importance", fontweight="bold", loc="left", fontsize=13)
+    ax.set_title("What drives monthly fire on peat", loc="left")
     vmax = float(s.values.max())
     ax.set_xlim(0, vmax * 1.15)
     for b, v in zip(bars, s.values):
@@ -54,7 +54,7 @@ def _shap_heatmap() -> None:
             v = mat.values[i, j]
             ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=7,
                     color="white" if v > vmax * 0.55 else "#222")
-    ax.set_title("Driver Importance by District (mean |SHAP|)", fontweight="bold", loc="left", fontsize=13)
+    ax.set_title("Driver importance by district, mean |SHAP|", loc="left")
     fig.colorbar(im, ax=ax, label="mean |SHAP|, log-odds", fraction=0.046, pad=0.02)
     fig.tight_layout(rect=[0, 0.04, 1, 1]); _foot(fig)
     fig.savefig(OUT_FIGURES / "chart_shap_by_district.png", dpi=DPI); plt.close(fig)
@@ -74,7 +74,7 @@ def _windrose() -> None:
     wa.bar(df["export_bearing_deg"], df["mean_wind_ms"], normed=True, opening=0.8,
            edgecolor="white", cmap=plt.cm.magma)
     wa.set_legend(title="Wind speed (m/s)", loc="lower left", fontsize=7)
-    wa.set_title("Smoke Export Bearing on High Activity Days", fontweight="bold")
+    wa.set_title("Wind direction on high-activity fire days")
     fig.savefig(OUT_FIGURES / "chart_windrose.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 
@@ -91,16 +91,20 @@ def _year_comparison() -> None:
             burned = e.groupby("year")["burned_area_ha"].sum().reindex(list(STUDY_YEARS), fill_value=0)
     years = [str(y) for y in STUDY_YEARS]
     fig, ax1 = plt.subplots(figsize=(7.5, 5))
-    ax1.bar(years, [rate.get(y, 0) for y in STUDY_YEARS], color="#D7301F", alpha=0.85,
+    ax1.bar(years, [rate.get(y, 0) for y in STUDY_YEARS], color="#b63a1c", alpha=0.85,
             label="Fire rate (peat cells)")
-    ax1.set_ylabel("Fire-positive cell rate", color="#D7301F"); ax1.set_xlabel("Year")
-    ax1.set_title("Fire Rate on Peat and Burned Area by Year",
-                  fontweight="bold", loc="left", fontsize=13)
+    ax1.set_ylabel("Peat cell-months with fire", color="#b63a1c"); ax1.set_xlabel("Dry season (June to November)")
+    from matplotlib.ticker import FuncFormatter, PercentFormatter
+    ax1.yaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))
+    ax1.set_title("2023 stood far above the two seasons after it",
+                  loc="left")
     if burned is not None:
         ax2 = ax1.twinx()
-        ax2.plot(years, [burned.get(y, 0) for y in STUDY_YEARS], "o-", color="#1a1a1a", lw=2,
+        ax2.plot(years, [burned.get(y, 0) for y in STUDY_YEARS], "o-", color="#15171a", lw=2,
                  label="Burned area (ha)")
-        ax2.set_ylabel("Burned area (ha, MODIS MCD64A1)", color="#1a1a1a")
+        ax2.set_ylabel("Burned area, MODIS MCD64A1 (ha)", color="#15171a")
+        ax2.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
+        ax2.spines["right"].set_visible(True); ax2.spines["top"].set_visible(False)
         h1, l1 = ax1.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
         ax1.legend(h1 + h2, l1 + l2, loc="upper right", fontsize=8)
     fig.tight_layout()
@@ -114,10 +118,10 @@ def _spacetime() -> None:
     gi = pd.read_parquet(gp).set_index("cell_id")
     hot = (gi > 1.96).mean(axis=0)
     fig, ax = plt.subplots(figsize=(8, 4.5))
-    ax.plot(hot.index, hot.values, "o-", color="#B30000", lw=2)
+    ax.plot(hot.index, hot.values, "o-", color="#b63a1c", lw=2)
     ax.set_ylabel("Share of cells in hot cluster\n(Getis-Ord Gi* z > 1.96)")
     ax.set_xlabel("Time bin (year-month)")
-    ax.set_title("Temporal Evolution of Fire Hot Clusters", fontweight="bold", loc="left", fontsize=13)
+    ax.set_title("Hot clusters by month", loc="left")
     plt.xticks(rotation=45, ha="right", fontsize=8); fig.tight_layout()
     fig.savefig(OUT_FIGURES / "chart_spacetime_hotshare.png", dpi=DPI); plt.close(fig)
 
@@ -133,9 +137,9 @@ def _interactions() -> None:
     vals = [x["interaction_strength"] for x in pairs]
     fig, ax = plt.subplots(figsize=(9.5, 5))
     vv = vals[::-1]
-    bars = ax.barh(labels[::-1], vv, color="#6A1B9A")
+    bars = ax.barh(labels[::-1], vv, color="#3f6f73")
     ax.set_xlabel("Mean |SHAP interaction value| (log-odds)")
-    ax.set_title("Strongest Driver Interactions", fontweight="bold", loc="left", fontsize=13)
+    ax.set_title("Strongest driver interactions", loc="left")
     vmax = max(vv)
     ax.set_xlim(0, vmax * 1.18)
     for b, v in zip(bars, vv):
@@ -158,10 +162,10 @@ def _pdp() -> None:
         axes = [axes]
     for ax, f in zip(axes, feats):
         xs = [c["bin_center"] for c in pdp[f]]; ys = [c["mean_fire_prob"] for c in pdp[f]]
-        ax.plot(xs, ys, "o-", color="#B30000", lw=2)
+        ax.plot(xs, ys, "o-", color="#b63a1c", lw=2)
         ax.set_xlabel(pretty(f)); ax.set_ylabel("Mean predicted monthly fire probability")
-        ax.set_title(pretty(f), fontsize=11, fontweight="bold"); ax.grid(alpha=0.3)
-    fig.suptitle("Partial Dependence on the Four Strongest Drivers", fontweight="bold", fontsize=13)
+        ax.set_title(pretty(f), fontsize=11); ax.grid(alpha=0.3)
+    fig.suptitle("Modelled fire probability against the four strongest drivers", fontsize=13)
     fig.tight_layout(rect=[0, 0.05, 1, 0.96]); _foot(fig)
     fig.savefig(OUT_FIGURES / "chart_partial_dependence.png", dpi=DPI); plt.close(fig)
 
@@ -187,11 +191,11 @@ def _carbon() -> None:
     mid = [(l + h) / 2 for l, h in zip(low, high)]
     err = [[m - l for m, l in zip(mid, low)], [h - m for h, m in zip(high, mid)]]
     yy = list(range(len(names)))[::-1]
-    ax1.barh(yy, mid, xerr=err, color="#8B4513", alpha=0.85, capsize=5,
+    ax1.barh(yy, mid, xerr=err, color="#8c877c", alpha=0.85, capsize=5,
              error_kw={"ecolor": "#444", "lw": 1.3}, height=0.6)
     ax1.set_yticks(yy); ax1.set_yticklabels(names, fontsize=10)
     ax1.set_xlabel("Estimated CO2 emission (million tonnes)", fontsize=10)
-    ax1.set_title("Carbon Emission by District", fontweight="bold", loc="left", fontsize=13, pad=10)
+    ax1.set_title("Indicative CO2 from burned peat, by district", loc="left", pad=10)
     xmax = max(high) if high else 1
     ax1.set_xlim(0, xmax * 1.25)
     for yi, (mv, h) in zip(yy, zip(mid, high)):
@@ -202,12 +206,12 @@ def _carbon() -> None:
     years = [str(r["year"]) for r in byy]
     ha = [r.get("burned_ha", 0) for r in byy]
     ha_peat = [r.get("burned_peat_ha", 0) for r in byy]
-    bars = ax2.bar(years, ha, color="#E8B48A", alpha=0.9, width=0.6, label="All burned area")
-    ax2.bar(years, ha_peat, color="#8B4513", alpha=0.9, width=0.6, label="On peat (PEATGRIDS)")
+    bars = ax2.bar(years, ha, color="#e2ded3", alpha=0.9, width=0.6, label="All burned area")
+    ax2.bar(years, ha_peat, color="#8c877c", alpha=0.9, width=0.6, label="On peat (PEATGRIDS)")
     ax2.legend(fontsize=8, loc="upper right")
     ax2.set_ylabel("Burned area (hectares, MODIS MCD64A1)", fontsize=10)
     ax2.set_xlabel("Year", fontsize=10)
-    ax2.set_title("Burned Area by Year", fontweight="bold", loc="left", fontsize=13, pad=10)
+    ax2.set_title("Burned area by year", loc="left", pad=10)
     ax2.set_ylim(0, (max(ha) if ha else 1) * 1.18)
     for b, v in zip(bars, ha):
         ax2.text(b.get_x() + b.get_width() / 2, v + (max(ha) if ha else 1) * 0.015,

@@ -65,7 +65,8 @@ def build_interactive_map() -> None:
     aoi = load_districts()
     grid = build_grid(aoi)[["cell_id", "district", "geometry"]]
     center = [aoi.geometry.centroid.y.mean(), aoi.geometry.centroid.x.mean()]
-    m = folium.Map(location=center, zoom_start=7, tiles="CartoDB positron", control_scale=True)
+    m = folium.Map(location=center, zoom_start=7, tiles=None, control_scale=True)
+    folium.TileLayer(tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", attr="Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors", name="Light gray basemap (Esri)", max_native_zoom=16, max_zoom=19).add_to(m)
 
     folium.GeoJson(
         aoi[["district", "geometry"]].to_json(), name="Districts",

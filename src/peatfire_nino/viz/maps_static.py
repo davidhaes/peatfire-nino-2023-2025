@@ -45,11 +45,11 @@ def _labels(ax, aoi) -> None:
         c = r.geometry.representative_point()
         dx, dy = LABEL_OFFSET.get(r["district"], (0.0, 0.5))
         ax.text(c.x + dx, c.y + dy, r["district"], fontsize=8.5, fontweight="bold",
-                color="#1a1a1a", ha="center", va="center", path_effects=HALO)
+                color="#15171a", ha="center", va="center", path_effects=HALO)
 
 
 def _finalize(ax, title, subtitle) -> None:
-    ax.set_title(title, fontsize=15, fontweight="bold", loc="left", pad=24, color="#1a1a1a")
+    ax.set_title(title, fontsize=15, loc="left", pad=24, color="#15171a")
     ax.text(0.0, 1.012, subtitle, transform=ax.transAxes, fontsize=9.5,
             color="#555", va="bottom", ha="left")
     ax.text(0.0, -0.03, SRC, transform=ax.transAxes, fontsize=7.5,
@@ -68,7 +68,7 @@ def _overview() -> None:
     burning.plot(ax=ax, column="n_fire_px", cmap="YlOrRd", linewidth=0, alpha=0.9,
                  legend=True, legend_kwds={"label": "Fire pixel-months per 3 km cell", "shrink": 0.6})
     _basemap(ax); _frame(ax, aoi); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "Study Area and Active Fire",
+    _finalize(ax, "Study area and active fire",
               "MODIS active fire (FIRMS, 1 km), 2023 to 2025 dry season (June to November)")
     fig.savefig(OUT_FIGURES / "01_overview.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
@@ -86,7 +86,7 @@ def _susceptibility() -> None:
                           "framealpha": 0.92, "edgecolor": "#ccc"})
     aoi.plot(ax=ax, facecolor="none", edgecolor=BOUNDARY, linewidth=BW)
     _basemap(ax); _frame(ax, gdf); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "Peatland Fire Susceptibility, 2023 El Nino Peak",
+    _finalize(ax, "Modelled fire susceptibility in the 2023 El Niño season",
               "LightGBM monthly fire probability, dry season mean, cells at least half PEATGRIDS peat")
     fig.savefig(OUT_FIGURES / "02_susceptibility.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
@@ -95,7 +95,9 @@ def _hotspots() -> None:
     cat = pd.read_parquet(DATA_PROCESSED / "emerging_hotspots.parquet")
     grid = build_grid(load_districts())
     gdf = grid.merge(cat[["cell_id", "category"]], on="cell_id", how="inner"); aoi = load_districts()
-    cmap = {"new": "#D32F2F", "intensifying": "#1565C0", "persistent": "#6A1B9A", "diminishing": "#9E9E9E"}
+    cmap = {"intensifying": "#b63a1c", "new": "#15171a", "persistent": "#d98c6c", "diminishing": "#8c877c"}
+    names = {"intensifying": "Rising after 2023", "new": "New at end of record",
+             "persistent": "Persistent", "diminishing": "Declining"}
     fig, ax = plt.subplots(figsize=(12, 7))
     gdf.plot(ax=ax, color="#dddddd", alpha=0.4)
     present = []
@@ -104,12 +106,12 @@ def _hotspots() -> None:
         if not sub.empty:
             sub.plot(ax=ax, color=col, alpha=0.95); present.append((lab, col, len(sub)))
     aoi.plot(ax=ax, facecolor="none", edgecolor=BOUNDARY, linewidth=BW)
-    handles = [mpatches.Patch(color=c, label=f"{lab} (n={n})") for lab, c, n in present]
-    ax.legend(handles=handles, title="Emerging hotspot class", loc="lower left",
+    handles = [mpatches.Patch(color=c, label=f"{names[lab]} ({n} cells)") for lab, c, n in present]
+    ax.legend(handles=handles, title="Hotspot trend, relative to the study area", loc="lower left",
               fontsize=8.5, title_fontsize=9.5, framealpha=0.92, edgecolor="#ccc")
     _basemap(ax); _frame(ax, gdf); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "Priority Emerging Fire Hotspots",
-              "Getis-Ord Gi* per month with Mann-Kendall trend, 2023 to 2025")
+    _finalize(ax, "Where fire kept returning after 2023",
+              "Getis-Ord Gi* per month with a Mann-Kendall trend over 18 dry-season months, 2023 to 2025")
     fig.savefig(OUT_FIGURES / "03_priority_hotspots.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
 
@@ -124,7 +126,7 @@ def _smoke() -> None:
         ax.annotate("", xy=(r["end_lon"], r["end_lat"]), xytext=(r["start_lon"], r["start_lat"]),
                     arrowprops=dict(arrowstyle="-|>", color="#D32F2F", lw=2.6))
     _basemap(ax); _frame(ax, aoi); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "Dominant Smoke Export Direction (Proxy)",
+    _finalize(ax, "Smoke direction on the worst days (wind proxy)",
               "Fire-weighted ERA5-Land wind on high-activity days, 24 hour straight line, 2023")
     fig.savefig(OUT_FIGURES / "04_smoke_export.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
@@ -148,7 +150,7 @@ def _year_delta() -> None:
     cax.tick_params(labelsize=7)
     aoi.plot(ax=ax, facecolor="none", edgecolor=BOUNDARY, linewidth=BW)
     _basemap(ax); _frame(ax, gdf); _labels(ax, aoi); _north(ax)
-    _finalize(ax, "Modelled Fire Susceptibility, 2023 minus 2024",
+    _finalize(ax, "Modelled fire susceptibility, 2023 minus 2024",
               "Dry-season mean monthly probability; red is higher in the 2023 El Nino season, blue higher in 2024")
     fig.savefig(OUT_FIGURES / "05_year_delta.png", dpi=DPI, bbox_inches="tight"); plt.close(fig)
 
@@ -201,12 +203,12 @@ def _yearly_panels() -> None:
                 spine.set_edgecolor("#cccccc")
                 spine.set_linewidth(0.8)
             if i == 0:
-                ax.set_title(str(yr), fontsize=13, fontweight="bold", pad=8)
+                ax.set_title(str(yr), fontsize=13, pad=8)
             if j == 0:
                 ax.set_ylabel(dist, fontsize=10, fontweight="bold", rotation=90,
                               labelpad=10)
 
-    fig.suptitle("Fire Susceptibility by District and Year",
+    fig.suptitle("Modelled fire susceptibility by district and year",
                  fontsize=15, fontweight="bold", y=0.965)
     fig.text(0.5, 0.93, "Declining intensity after the 2023 El Nino peak",
              ha="center", fontsize=10, color="#555")

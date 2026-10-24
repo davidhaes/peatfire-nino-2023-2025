@@ -7,7 +7,7 @@ from __future__ import annotations
 import matplotlib.patheffects as pe
 
 DPI = 300
-BOUNDARY = "#222222"
+BOUNDARY = "#15171a"
 BW = 1.1
 HALO = [pe.withStroke(linewidth=3.0, foreground="white")]
 SRC = "Data: NASA FIRMS (MODIS), ERA5-Land, Hansen GFC, MERIT DEM, PEATGRIDS, GADM 4.1"
@@ -16,17 +16,17 @@ SRC = "Data: NASA FIRMS (MODIS), ERA5-Land, Hansen GFC, MERIT DEM, PEATGRIDS, GA
 BASEMAP = "relief"
 
 PALETTES = {"susceptibility": "YlOrRd", "diverging": "RdBu_r",
-            "interaction": "#6A1B9A", "shap": "#B30000"}
+            "interaction": "#3f6f73", "shap": "#b63a1c"}
 
 PRETTY = {
-    "ndwi": "NDWI", "vpd": "VPD (kPa)", "lst_k": "LST (K)", "soil_moisture": "Soil Moisture (m3/m3)",
-    "treecover": "Tree Cover 2000 (%)", "loss_frac": "Forest Loss to 2022 (share)", "elevation": "Elevation (m)",
-    "slope": "Slope (deg)", "peat_likely": "Peat (PEATGRIDS)", "wind_speed": "Wind Speed (m/s)",
-    "peat_share": "Peat Share", "peat_thickness_cm": "Peat Thickness (cm)",
-    "ndwi_lag1": "NDWI (prev month)", "lst_lag1": "LST (prev month, K)",
-    "precip_mm": "Precipitation (mm/day)", "precip_lag1": "Precip (prev month, mm/day)",
-    "vpd_lag1": "VPD (prev month, kPa)", "sm_lag1": "Soil Moisture (prev month, m3/m3)",
-    "precip_cum2": "Precip (this + prev month, mm/day)",
+    "ndwi": "NDWI", "vpd": "VPD (kPa)", "lst_k": "LST (K)", "soil_moisture": "Soil moisture (m³/m³)",
+    "treecover": "Tree cover 2000 (%)", "loss_frac": "Forest loss to 2022 (share)", "elevation": "Elevation (m)",
+    "slope": "Slope (degrees)", "peat_likely": "Peat (PEATGRIDS)", "wind_speed": "Wind speed (m/s)",
+    "peat_share": "Peat share", "peat_thickness_cm": "Peat thickness (cm)",
+    "ndwi_lag1": "NDWI, previous month", "lst_lag1": "LST, previous month (K)",
+    "precip_mm": "Rainfall (mm/day)", "precip_lag1": "Rainfall, previous month (mm/day)",
+    "vpd_lag1": "VPD, previous month (kPa)", "sm_lag1": "Soil moisture, previous month (m³/m³)",
+    "precip_cum2": "Rainfall, this and previous month (mm/day)",
 }
 # Precipitation is the monthly mean of ERA5-Land daily totals, so its unit is
 # mm per day; precip_cum2 adds this month's and last month's daily means.
