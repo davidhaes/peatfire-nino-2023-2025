@@ -1,0 +1,19 @@
+seasons,peat_depth,vpd_band,fire_rate,n_cell_months
+2023 to 2025,all,below 0.65 kPa,0.0178,64953
+2023 to 2025,all,0.65 to 0.85 kPa,0.0449,16980
+2023 to 2025,all,above 0.85 kPa,0.1929,15573
+2023 to 2025,shallow,below 0.65 kPa,0.0071,12734
+2023 to 2025,shallow,0.65 to 0.85 kPa,0.0356,4528
+2023 to 2025,shallow,above 0.85 kPa,0.1603,4104
+2023 to 2025,deep,below 0.65 kPa,0.0204,52219
+2023 to 2025,deep,0.65 to 0.85 kPa,0.0483,12452
+2023 to 2025,deep,above 0.85 kPa,0.2046,11469
+2024 and 2025,all,below 0.65 kPa,0.0098,47833
+2024 and 2025,all,0.65 to 0.85 kPa,0.0293,13014
+2024 and 2025,all,above 0.85 kPa,0.0342,4157
+2024 and 2025,shallow,below 0.65 kPa,0.0024,9721
+2024 and 2025,shallow,0.65 to 0.85 kPa,0.019,3206
+2024 and 2025,shallow,above 0.85 kPa,0.0342,1317
+2024 and 2025,deep,below 0.65 kPa,0.0116,38112
+2024 and 2025,deep,0.65 to 0.85 kPa,0.0326,9808
+2024 and 2025,deep,above 0.85 kPa,0.0342,2840
